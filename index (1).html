@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Budget Travel Bliss</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>
+  /* ── BINANCE DESIGN TOKENS (DESIGN.md) ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --font-display: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-body:    'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-plex:    'IBM Plex Mono', monospace;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font-body); background: #0b0e11; color: #eaecef; font-size: 14px; line-height: 1.5; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+  /* NAV — top-nav-dark: 64px, canvas-dark bg, yellow wordmark */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(11,14,17,0.96); backdrop-filter: blur(14px); border-bottom: 1px solid #2b3139; display: flex; align-items: center; justify-content: space-between; padding: 0 5vw; height: 64px; }
+  .nav-logo { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; color: #fcd535; letter-spacing: -0.3px; text-decoration: none; }
+  .nav-logo span { color: #fcd535; }
+  .nav-links { display: flex; gap: 2px; list-style: none; }
+  .nav-links a { font-size: 0.875rem; font-weight: 500; letter-spacing: 0; text-transform: none; color: #eaecef; text-decoration: none; transition: color 0.15s, background 0.15s; padding: 6px 10px; border-radius: 6px; }
+  .nav-links a:hover { color: #fff; background: #2b3139; }
+  /* button-primary: yellow bg, dark text, 6px radius, 40px height */
+  .nav-cta { background: #fcd535; color: #181a20; border: none; border-radius: 6px; padding: 0 20px; height: 40px; font-family: var(--font-body); font-size: 0.875rem; font-weight: 600; letter-spacing: 0; text-transform: none; cursor: pointer; transition: background 0.15s; }
+  .nav-cta:hover { background: #f0b90b; }
+
+  /* HERO — hero-band-dark: canvas-dark, no gradient, bold sans headline */
+  .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 120px 5vw 80px; background: #0b0e11; position: relative; }
+  .hero::before { content: ''; position: absolute; inset: 0; background: none; pointer-events: none; }
+  .hero-label { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: #fcd535; margin-bottom: 1.2rem; animation: fadeUp 0.8s ease both; }
+  /* hero-display: 700 weight, tight letter-spacing, white */
+  .hero h1 { font-family: var(--font-display); font-size: clamp(2.4rem, 8.5vw, 4.5rem); font-weight: 700; line-height: 1.1; letter-spacing: -1px; color: #fff; max-width: 900px; animation: fadeUp 0.8s 0.1s ease both; }
+  .hero h1 em { font-style: normal; color: #fcd535; }
+  .hero-sub { margin-top: 1.4rem; max-width: 520px; font-size: 1rem; color: #929aa5; font-weight: 400; line-height: 1.65; animation: fadeUp 0.8s 0.2s ease both; }
+  .hero-search { margin-top: 2.8rem; position: relative; width: 100%; max-width: 560px; animation: fadeUp 0.8s 0.3s ease both; }
+  /* search-input-on-dark: surface-card-dark bg, hairline-dark border, lg radius */
+  .hero-search-bar { display: flex; align-items: center; background: #1e2329; border: 1px solid #2b3139; border-radius: 8px; padding: 4px 4px 4px 16px; box-shadow: none; }
+  .hero-search input { flex: 1; border: none; outline: none; font-family: var(--font-body); font-size: 0.875rem; color: #fff; background: transparent; min-width: 0; }
+  .hero-search input::placeholder { color: #707a8a; }
+  /* button-primary-pill on search */
+  .hero-search button { background: #fcd535; color: #181a20; border: none; border-radius: 9999px; padding: 0.65rem 1.4rem; font-family: var(--font-body); font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: background 0.15s; white-space: nowrap; flex-shrink: 0; }
+  .hero-search button:hover { background: #f0b90b; }
+  /* search dropdown: surface-card-dark */
+  .search-dropdown { position: absolute; top: calc(100% + 8px); left: 0; right: 0; background: #1e2329; border: 1px solid #2b3139; border-radius: 12px; box-shadow: 0 16px 48px rgba(0,0,0,0.4); overflow-y: auto; max-height: 320px; z-index: 200; }
+  .search-dropdown-item { display: flex; align-items: center; gap: 0.9rem; padding: 0.75rem 1.2rem; cursor: pointer; transition: background 0.12s; border: none; width: 100%; background: transparent; text-align: left; font-family: var(--font-body); }
+  .search-dropdown-item:hover, .search-dropdown-item.highlighted { background: #2b3139; }
+  .search-item-icon { width: 34px; height: 34px; border-radius: 50%; background: #2b3139; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; color: #fcd535; flex-shrink: 0; }
+  .search-item-name { font-size: 0.875rem; font-weight: 500; color: #fff; }
+  .search-item-meta { font-size: 0.72rem; color: #707a8a; }
+  /* number-sm in plex */
+  .search-item-price { margin-left: auto; font-family: var(--font-plex); font-size: 0.95rem; font-weight: 500; color: #fcd535; white-space: nowrap; }
+  .search-dropdown-empty { padding: 1rem 1.4rem; font-size: 0.875rem; color: #707a8a; }
+  .hero-stats { margin-top: 2.2rem; margin-bottom: 0.8rem; display: flex; gap: 3rem; animation: fadeUp 0.8s 0.4s ease both; }
+  /* number-display in plex, primary yellow */
+  .hero-stat-num { font-family: var(--font-plex); font-size: 2rem; font-weight: 700; color: #fcd535; letter-spacing: -0.3px; }
+  .hero-stat-label { font-size: 0.72rem; color: #707a8a; letter-spacing: 0.06em; text-transform: uppercase; margin-top: 4px; }
+
+  /* SHARED */
+  section { padding: 80px 5vw; }
+  .section-label { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: #fcd535; margin-bottom: 0.7rem; }
+  /* display-md: 600 weight, tight spacing */
+  .section-title { font-family: var(--font-display); font-size: clamp(1.75rem, 4vw, 2.4rem); font-weight: 700; line-height: 1.15; color: #fff; letter-spacing: -0.3px; }
+  .section-title em { font-style: normal; color: #fcd535; }
+
+  /* DESTINATIONS — surface-card-dark section, cards on canvas-dark */
+  #destinations { background: #1e2329; }
+  .dest-controls { display: flex; align-items: center; gap: 0.5rem; margin-top: 2rem; flex-wrap: wrap; }
+  .filter-btn { border: 1px solid #2b3139; background: #0b0e11; border-radius: 6px; padding: 0.4rem 1rem; font-family: var(--font-body); font-size: 0.8rem; font-weight: 500; cursor: pointer; transition: all 0.15s; color: #707a8a; }
+  /* active filter = button-primary */
+  .filter-btn.active { background: #fcd535; border-color: #fcd535; color: #181a20; font-weight: 600; }
+  .filter-btn:hover:not(.active) { border-color: #fcd535; color: #fcd535; }
+  .sort-select { margin-left: auto; border: 1px solid #2b3139; background: #0b0e11; border-radius: 6px; padding: 0.4rem 1rem; font-family: var(--font-body); font-size: 0.8rem; color: #707a8a; cursor: pointer; outline: none; }
+  .dest-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+  /* dest-card = markets-table-card: canvas-dark bg, xl radius, hairline border */
+  .dest-card { background: #0b0e11; border-radius: 12px; overflow: hidden; border: 1px solid #2b3139; transition: transform 0.25s ease, border-color 0.2s; cursor: pointer; text-decoration: none; color: inherit; display: block; }
+  .dest-card:hover { transform: translateY(-4px); border-color: #fcd535; }
+  .dest-img { height: 200px; position: relative; overflow: hidden; background: #2b3139; }
+  .dest-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; display: block; }
+  .dest-card:hover .dest-img img { transform: scale(1.05); }
+  /* badge = yellow primary, sm radius, dark text */
+  .dest-badge { position: absolute; top: 12px; left: 12px; background: #fcd535; color: #181a20; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.05em; padding: 0.2rem 0.6rem; border-radius: 4px; text-transform: uppercase; }
+  .dest-body { padding: 1.2rem 1.3rem 1.4rem; }
+  .dest-region { font-size: 0.68rem; color: #fcd535; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; }
+  /* title-sm for dest name */
+  .dest-name { font-family: var(--font-display); font-size: 1rem; font-weight: 600; margin-top: 0.2rem; color: #fff; }
+  .dest-tagline { font-size: 0.8rem; color: #707a8a; margin-top: 0.3rem; line-height: 1.5; }
+  .dest-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #2b3139; }
+  /* price = number-md in plex, primary yellow */
+  .dest-price { font-family: var(--font-plex); font-size: 1.2rem; font-weight: 700; color: #fcd535; letter-spacing: -0.3px; }
+  .dest-price span { font-family: var(--font-body); font-size: 0.72rem; color: #707a8a; font-weight: 400; }
+  .dest-rating { font-size: 0.72rem; color: #707a8a; }
+  /* rating strong = trading-up green */
+  .dest-rating strong { color: #0ecb81; }
+  .dest-cta { margin-top: 0.8rem; display: inline-block; font-size: 0.75rem; font-weight: 600; color: #fcd535; }
+
+  /* PRICING — canvas-dark section, surface-card-dark cards */
+  #pricing { background: #0b0e11; }
+  .pricing-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem; margin-top: 2.5rem; }
+  .pricing-card { border-radius: 12px; padding: 1.5rem; display: flex; flex-direction: column; gap: 0.6rem; border: 1px solid #2b3139; background: #1e2329; transition: border-color 0.2s; }
+  .pricing-card:hover { border-color: #fcd535; }
+  .pricing-card-icon { font-size: 1.5rem; margin-bottom: 0.4rem; }
+  .pricing-card-title { font-family: var(--font-display); font-size: 1rem; font-weight: 600; color: #fff; }
+  .pricing-row { display: flex; justify-content: space-between; font-size: 0.82rem; padding: 0.3rem 0; border-bottom: 1px solid #2b3139; }
+  .pricing-row:last-child { border-bottom: none; }
+  .pricing-row-label { color: #707a8a; }
+  /* values in plex, yellow */
+  .pricing-row-val { font-family: var(--font-plex); font-weight: 500; color: #fcd535; }
+  .pricing-total { margin-top: 0.8rem; display: flex; justify-content: space-between; font-size: 0.875rem; font-weight: 600; color: #eaecef; }
+  .pricing-total-val { font-family: var(--font-plex); color: #fcd535; font-size: 1.1rem; font-weight: 700; }
+
+  /* BUDGET CALCULATOR — surface-card-dark section */
+  #calculator { background: #1e2329; }
+  .calc-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; margin-top: 2.5rem; align-items: start; }
+  @media(max-width:720px){ .calc-layout { grid-template-columns: 1fr; } }
+  .calc-inputs { display: flex; flex-direction: column; gap: 1.4rem; }
+  .calc-field label { display: block; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #707a8a; margin-bottom: 0.5rem; }
+  .calc-field input[type=range] { width: 100%; accent-color: #fcd535; margin-top: 0.3rem; }
+  /* text-input style: canvas-dark bg, hairline border, lg radius */
+  .calc-field select, .calc-field input[type=number] { width: 100%; border: 1px solid #2b3139; background: #0b0e11; border-radius: 8px; padding: 0.6rem 1rem; font-family: var(--font-body); font-size: 0.875rem; color: #eaecef; outline: none; }
+  .calc-tiers { display: flex; gap: 0.5rem; }
+  .tier-btn { flex: 1; border: 1px solid #2b3139; background: #0b0e11; border-radius: 6px; padding: 0.6rem 0.4rem; font-family: var(--font-body); font-size: 0.78rem; font-weight: 500; cursor: pointer; transition: all 0.15s; color: #707a8a; text-align: center; }
+  .tier-btn.active { background: #fcd535; border-color: #fcd535; color: #181a20; font-weight: 600; }
+  /* calc-result panel: canvas-dark, hairline border */
+  .calc-result { background: #0b0e11; color: #eaecef; border-radius: 12px; padding: 2rem; border: 1px solid #2b3139; }
+  .calc-result-dest { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: #fcd535; margin-bottom: 0.4rem; }
+  /* number-display: plex, 700, white */
+  .calc-result-total { font-family: var(--font-plex); font-size: 3rem; font-weight: 700; line-height: 1; color: #fff; letter-spacing: -0.5px; }
+  .calc-result-period { font-size: 0.78rem; color: #707a8a; margin-top: 0.3rem; }
+  .calc-breakdown { margin-top: 1.6rem; display: flex; flex-direction: column; gap: 0.7rem; }
+  .calc-bar-row { display: flex; flex-direction: column; gap: 0.3rem; }
+  .calc-bar-header { display: flex; justify-content: space-between; font-size: 0.78rem; }
+  .calc-bar-label { color: #707a8a; }
+  .calc-bar-val { color: #eaecef; font-weight: 500; font-family: var(--font-plex); }
+  .calc-bar-track { height: 4px; background: #2b3139; border-radius: 2px; overflow: hidden; }
+  /* bar fill = primary yellow */
+  .calc-bar-fill { height: 100%; border-radius: 2px; background: #fcd535; transition: width 0.5s ease; }
+  .calc-afford { margin-top: 1.4rem; padding-top: 1.2rem; border-top: 1px solid #2b3139; font-size: 0.82rem; color: #707a8a; }
+
+  /* CURRENCY CONVERTER — canvas-dark section, surface-card-dark boxes */
+  #converter { background: #0b0e11; }
+  .conv-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; margin-top: 2.5rem; align-items: start; }
+  @media(max-width:720px){ .conv-layout { grid-template-columns: 1fr; } }
+  .conv-box { background: #1e2329; border: 1px solid #2b3139; border-radius: 12px; padding: 1.5rem; }
+  .conv-field { margin-bottom: 1.2rem; }
+  .conv-field label { display: block; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: #707a8a; margin-bottom: 0.4rem; }
+  .conv-row { display: flex; gap: 0.6rem; }
+  /* number input in plex */
+  .conv-row input { flex: 1; border: 1px solid #2b3139; background: #0b0e11; border-radius: 8px; padding: 0.7rem 1rem; font-family: var(--font-plex); font-size: 1.3rem; font-weight: 500; color: #fff; outline: none; }
+  .conv-row select { border: 1px solid #2b3139; background: #0b0e11; border-radius: 8px; padding: 0.7rem 0.8rem; font-family: var(--font-body); font-size: 0.85rem; color: #eaecef; outline: none; min-width: 120px; }
+  /* conversion result in plex, primary yellow */
+  .conv-result-big { font-family: var(--font-plex); font-size: 2.2rem; font-weight: 700; color: #fcd535; margin: 1rem 0 0.2rem; line-height: 1; letter-spacing: -0.3px; }
+  .conv-rate-note { font-size: 0.7rem; color: #707a8a; margin-top: 0.4rem; }
+  .conv-quick { display: flex; flex-direction: column; gap: 0.4rem; max-height: 480px; overflow-y: auto; padding-right: 4px; }
+  .conv-quick::-webkit-scrollbar { width: 4px; }
+  .conv-quick::-webkit-scrollbar-track { background: #1e2329; border-radius: 2px; }
+  .conv-quick::-webkit-scrollbar-thumb { background: #2b3139; border-radius: 2px; }
+  /* markets-row style for currency rows */
+  .conv-quick-item { display: flex; justify-content: space-between; align-items: center; padding: 0.6rem 0.9rem; background: #1e2329; border-radius: 8px; cursor: pointer; transition: background 0.12s; border: 1px solid transparent; }
+  .conv-quick-item:hover { background: #2b3139; }
+  .conv-quick-left { display: flex; align-items: center; gap: 0.6rem; }
+  .conv-quick-flag { font-size: 1.2rem; }
+  .conv-quick-label { font-size: 0.8rem; color: #eaecef; font-weight: 500; }
+  .conv-quick-name { font-size: 0.68rem; color: #707a8a; }
+  /* number-md in plex */
+  .conv-quick-val { font-family: var(--font-plex); font-size: 1rem; font-weight: 500; color: #fff; text-align: right; }
+  .conv-quick-currency { font-size: 0.68rem; color: #fcd535; font-weight: 500; letter-spacing: 0.06em; }
+  .conv-swap { display: flex; justify-content: center; margin: 0.5rem 0; }
+  .conv-swap button { background: #2b3139; border: none; border-radius: 50%; width: 36px; height: 36px; font-size: 1rem; cursor: pointer; color: #fcd535; transition: background 0.15s; }
+  .conv-swap button:hover { background: #fcd535; color: #181a20; }
+
+  /* TIPS — surface-card-dark section, canvas-dark cards */
+  #tips { background: #1e2329; }
+  .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.2rem; margin-top: 2.5rem; }
+  .tip-card { background: #0b0e11; border-radius: 12px; padding: 1.5rem; border: 1px solid #2b3139; transition: border-color 0.2s; }
+  .tip-card:hover { border-color: #fcd535; }
+  /* decorative number in elevated-dark (low contrast, like sand was low contrast) */
+  .tip-num { font-family: var(--font-plex); font-size: 2.5rem; font-weight: 700; color: #2b3139; line-height: 1; margin-bottom: 0.6rem; }
+  .tip-title { font-family: var(--font-display); font-size: 0.95rem; font-weight: 600; margin-bottom: 0.4rem; color: #fff; }
+  .tip-text { font-size: 0.8rem; color: #707a8a; line-height: 1.6; }
+
+  /* TESTIMONIALS — canvas-dark (already dark) */
+  #testimonials { background: #0b0e11; color: #eaecef; }
+  #testimonials .section-label { color: #fcd535; }
+  #testimonials .section-title { color: #fff; }
+  .testi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 2.5rem; }
+  /* testi-card = surface-card-dark with hairline */
+  .testi-card { background: #1e2329; border: 1px solid #2b3139; border-radius: 12px; padding: 1.5rem; }
+  .testi-quote { font-family: var(--font-display); font-size: 0.9rem; font-style: italic; font-weight: 400; line-height: 1.65; color: #eaecef; }
+  .testi-author { margin-top: 1.2rem; display: flex; align-items: center; gap: 0.8rem; }
+  /* avatar = yellow bg, dark text (primary color) */
+  .testi-avatar { width: 40px; height: 40px; border-radius: 50%; background: #fcd535; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 0.875rem; color: #181a20; font-weight: 700; flex-shrink: 0; }
+  .testi-name { font-size: 0.85rem; font-weight: 600; color: #fff; }
+  .testi-location { font-size: 0.72rem; color: #707a8a; }
+  /* stars = primary yellow */
+  .testi-stars { color: #fcd535; font-size: 0.8rem; margin-top: 0.2rem; }
+
+  /* NEWSLETTER — surface-card-dark, no gradient (Binance: flat color blocks only) */
+  #newsletter { background: #1e2329; text-align: center; border-top: 1px solid #2b3139; border-bottom: 1px solid #2b3139; }
+  .newsletter-inner { max-width: 520px; margin: 0 auto; }
+  .newsletter-sub { font-size: 0.875rem; color: #707a8a; margin-top: 0.7rem; }
+  .newsletter-form { display: flex; gap: 0.6rem; margin-top: 2rem; flex-wrap: wrap; }
+  .newsletter-form input { flex: 1; min-width: 200px; border: 1px solid #2b3139; background: #0b0e11; border-radius: 6px; padding: 0.75rem 1.2rem; font-family: var(--font-body); font-size: 0.875rem; outline: none; color: #eaecef; }
+  /* button-primary */
+  .newsletter-form button { background: #fcd535; color: #181a20; border: none; border-radius: 6px; padding: 0.75rem 1.6rem; font-family: var(--font-body); font-size: 0.875rem; font-weight: 600; cursor: pointer; transition: background 0.15s; }
+  .newsletter-form button:hover { background: #f0b90b; }
+  .newsletter-note { font-size: 0.7rem; color: #707a8a; margin-top: 0.8rem; }
+
+  /* FAQ — canvas-dark, faq-row style: hairline dividers, no card border */
+  #faq { background: #0b0e11; }
+  .faq-list { margin-top: 2.5rem; max-width: 720px; display: flex; flex-direction: column; gap: 0; }
+  .faq-item { border-top: 1px solid #2b3139; overflow: hidden; }
+  .faq-item:last-child { border-bottom: 1px solid #2b3139; }
+  /* faq-q: title-sm weight, transparent bg */
+  .faq-q { width: 100%; background: transparent; border: none; display: flex; align-items: center; justify-content: space-between; padding: 1.2rem 0; cursor: pointer; font-family: var(--font-body); font-size: 0.95rem; font-weight: 600; color: #fff; text-align: left; transition: color 0.15s; }
+  .faq-q:hover { color: #fcd535; }
+  .faq-icon { width: 22px; height: 22px; border-radius: 50%; background: #2b3139; color: #fcd535; font-size: 1rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: transform 0.25s; }
+  .faq-icon.open { transform: rotate(45deg); }
+  .faq-a { background: transparent; padding: 0; max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.2s; }
+  .faq-a.open { max-height: 300px; padding: 0 0 1.2rem; }
+  .faq-a p { font-size: 0.85rem; color: #707a8a; line-height: 1.7; }
+
+  /* FOOTER — footer-light: surface-soft-light bg, dark text (Binance signature) */
+  footer { background: #fafafa; color: #181a20; padding: 3rem 5vw; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; border-top: 1px solid #eaecef; }
+  .footer-logo { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; color: #181a20; }
+  .footer-logo span { color: #181a20; }
+  .footer-copy { font-size: 0.75rem; color: #707a8a; }
+  .footer-links { display: flex; gap: 1.5rem; list-style: none; }
+  .footer-links a { font-size: 0.75rem; color: #707a8a; text-decoration: none; transition: color 0.15s; }
+  .footer-links a:hover { color: #181a20; }
+
+  /* TWEAKS PANEL */
+  .tweaks-panel { position: fixed; bottom: 24px; right: 24px; z-index: 999; background: #1e2329; border: 1px solid #2b3139; border-radius: 12px; padding: 1.2rem 1.4rem; box-shadow: 0 12px 40px rgba(0,0,0,0.4); width: 230px; display: none; flex-direction: column; gap: 1rem; }
+  .tweaks-panel.visible { display: flex; }
+  .tweaks-title { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: #707a8a; }
+  .tweak-row { display: flex; flex-direction: column; gap: 0.3rem; }
+  .tweak-row label { font-size: 0.75rem; color: #707a8a; }
+  .tweak-row input[type=range] { width: 100%; accent-color: #fcd535; }
+  .tweak-row select { width: 100%; border: 1px solid #2b3139; border-radius: 6px; padding: 0.35rem 0.6rem; background: #0b0e11; font-family: var(--font-body); font-size: 0.82rem; color: #eaecef; outline: none; }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes imgFadeIn { from { opacity: 0; transform: scale(1.04); } to { opacity: 1; transform: scale(1); } }
+  @media(max-width:600px) { .nav-links { display: none; } .hero-stats { gap: 1.5rem; } }
+
+  /* HERO BG IMAGE — dark overlay instead of light */
+  .hero-bg { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
+  .hero-bg img { width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s ease; }
+  .hero-bg img.loaded { opacity: 0.09; }
+  .hero-bg::after { content:''; position:absolute; inset:0; background: linear-gradient(to bottom, rgba(11,14,17,0.75) 0%, rgba(11,14,17,0.45) 40%, rgba(11,14,17,0.9) 100%); }
+  .hero > *:not(.hero-bg) { position: relative; z-index: 1; }
+
+  /* DEST CARD image fade */
+  .dest-img img { opacity: 0; transition: opacity 0.6s ease, transform 0.5s ease; }
+  .dest-img img.loaded { opacity: 1; animation: imgFadeIn 0.6s ease both; }
+
+  /* DESTINATION MODAL */
+  .modal-backdrop { position: fixed; inset: 0; background: rgba(11,14,17,0.88); z-index: 500; display: flex; align-items: center; justify-content: center; padding: 1rem; animation: fadeUp 0.18s ease both; }
+  .modal { background: #1e2329; border: 1px solid #2b3139; border-radius: 12px; width: 100%; max-width: 540px; max-height: 90vh; overflow-y: auto; position: relative; }
+  .modal-img { width: 100%; height: 220px; object-fit: cover; display: block; background: #2b3139; border-radius: 12px 12px 0 0; }
+  .modal-close { position: absolute; top: 0.75rem; right: 0.75rem; background: rgba(11,14,17,0.75); border: none; color: #eaecef; width: 32px; height: 32px; border-radius: 50%; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10; transition: background 0.15s; }
+  .modal-close:hover { background: #2b3139; }
+  .modal-body { padding: 1.4rem 1.5rem 1.8rem; }
+  .modal-badge { font-size: 0.68rem; font-weight: 600; background: #fcd535; color: #181a20; border-radius: 4px; padding: 2px 8px; display: inline-block; margin-bottom: 0.6rem; }
+  .modal-name { font-family: var(--font-display); font-size: 1.75rem; font-weight: 700; color: #fff; line-height: 1.1; }
+  .modal-country { font-size: 0.78rem; color: #707a8a; margin-top: 0.25rem; }
+  .modal-tagline { font-size: 0.875rem; color: #929aa5; margin-top: 0.75rem; line-height: 1.65; }
+  .modal-meta { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.6rem; margin-top: 1.1rem; }
+  .modal-meta-item { background: #0b0e11; border-radius: 8px; padding: 0.75rem; }
+  .modal-meta-label { font-size: 0.62rem; font-weight: 500; color: #707a8a; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.2rem; }
+  .modal-meta-value { font-size: 0.82rem; font-weight: 500; color: #eaecef; }
+  .modal-price { font-family: var(--font-plex); font-size: 1.3rem; font-weight: 700; color: #fcd535; }
+  .modal-breakdown { margin-top: 1.2rem; padding-top: 1rem; border-top: 1px solid #2b3139; }
+  .modal-breakdown-title { font-size: 0.68rem; font-weight: 600; color: #707a8a; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 0.6rem; }
+  .modal-row { display: flex; justify-content: space-between; align-items: center; padding: 0.45rem 0; border-bottom: 1px solid #2b3139; font-size: 0.83rem; }
+  .modal-row:last-child { border-bottom: none; font-weight: 600; }
+  .modal-row-label { color: #929aa5; }
+  .modal-row:last-child .modal-row-label { color: #eaecef; }
+  .modal-row-value { font-family: var(--font-plex); color: #fcd535; font-weight: 500; }
+
+  /* GALLERY — canvas-dark, xl radius on items */
+  #gallery { background: #0b0e11; padding: 80px 5vw; }
+  #gallery .section-label { color: #fcd535; }
+  #gallery .section-title { color: #fff; }
+  .gallery-subtitle { color: #707a8a; font-size:0.875rem; margin-top:0.5rem; max-width:480px; }
+  .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: auto; gap: 8px; margin-top: 2rem; }
+  .gallery-item { border-radius: 8px; overflow: hidden; position: relative; cursor: pointer; }
+  .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+  .gallery-item:nth-child(5) { grid-column: span 2; }
+  .gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0; transition: opacity 0.7s ease, transform 0.5s ease; min-height: 180px; }
+  .gallery-item img.loaded { opacity: 1; }
+  .gallery-item:hover img { transform: scale(1.04); }
+  .gallery-item-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(11,14,17,0.85) 0%, transparent 55%); opacity: 0; transition: opacity 0.25s; display: flex; align-items: flex-end; padding: 1rem; }
+  .gallery-item:hover .gallery-item-overlay { opacity: 1; }
+  .gallery-item-label { font-family: var(--font-display); font-size: 0.875rem; font-weight: 600; color: #fff; }
+  .gallery-item-sub { font-size: 0.68rem; color: rgba(255,255,255,0.6); letter-spacing:0.08em; text-transform:uppercase; }
+  .gallery-cta { margin-top: 1.8rem; text-align: center; }
+  /* secondary button style on dark */
+  .gallery-cta-btn { display: inline-block; border: 1px solid #2b3139; color: #eaecef; border-radius: 6px; padding: 0.7rem 2rem; font-family: var(--font-body); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; cursor: pointer; transition: all 0.2s; background: transparent; }
+  .gallery-cta-btn:hover { background: #fcd535; border-color: #fcd535; color: #181a20; }
+  @media(max-width:700px) { .gallery-grid { grid-template-columns: repeat(2,1fr); } .gallery-item:nth-child(1) { grid-column: span 2; } .gallery-item:nth-child(5) { grid-column: span 2; } }
+
+  /* LIGHTBOX */
+  .lightbox { position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+  .lightbox.open { opacity: 1; pointer-events: all; }
+  .lightbox-img-wrap { position: relative; max-width: min(90vw, 1100px); max-height: 85vh; }
+  .lightbox-img-wrap img { width: 100%; height: 100%; object-fit: contain; border-radius: 8px; max-height: 85vh; display: block; }
+  .lightbox-caption { position: absolute; bottom: -2.4rem; left: 0; right: 0; text-align: center; color: rgba(255,255,255,0.5); font-size: 0.82rem; font-family: var(--font-display); }
+  .lightbox-close { position: absolute; top: -2.8rem; right: 0; background: none; border: none; color: #fff; font-size: 1.8rem; cursor: pointer; opacity: 0.6; line-height:1; }
+  .lightbox-close:hover { opacity: 1; }
+  .lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.1); border: none; color: #fff; font-size: 1.5rem; width: 44px; height: 44px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; backdrop-filter: blur(4px); }
+  .lightbox-nav:hover { background: rgba(255,255,255,0.22); }
+  .lightbox-prev { left: -56px; }
+  .lightbox-next { right: -56px; }
+  @media(max-width:700px) { .lightbox-prev { left: 8px; } .lightbox-next { right: 8px; } }
+</style>
+</head>
+<body>
+<nav>
+  <a class="nav-logo" href="#">Budget <span>Travel</span> Bliss</a>
+  <ul class="nav-links">
+    <li><a href="#destinations">Destinations</a></li>
+    <li><a href="#calculator">Planner</a></li>
+    <li><a href="#converter">Currency</a></li>
+    <li><a href="#tips">Tips</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('newsletter').scrollIntoView({behavior:'smooth'})">Get Deals</button>
+</nav>
+
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useEffect, useCallback } = React;
+
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "accentColor": "teal",
+  "cardStyle": "elevated",
+  "heroSize": 85
+}/*EDITMODE-END*/;
+
+// ── DATA ──────────────────────────────────────────────────────
+const DESTINATIONS = [
+  { id:1,  name:"Chiang Mai",    country:"Thailand",    region:"Asia",     badge:"Top Pick",    tagline:"Temples, street food & mountain air from just $25/day",        dailyCost:25, rating:4.9, reviews:2140, photo:"1519922639192-e73293ca430e", currency:"THB", bestTime:"Nov–Feb",  climate:"Tropical",     lang:"Thai" },
+  { id:2,  name:"Tbilisi",       country:"Georgia",     region:"Europe",   badge:"Hidden Gem",  tagline:"Wine, history and stunning gorges completely under the radar",  dailyCost:30, rating:4.8, reviews:870,  photo:"1565008576549-57569a49371d", currency:"GEL", bestTime:"Apr–Jun",  climate:"Temperate",    lang:"Georgian" },
+  { id:3,  name:"Medellín",      country:"Colombia",    region:"Americas", badge:"Rising Star", tagline:"Eternal spring climate with vibrant nightlife & culture",       dailyCost:35, rating:4.7, reviews:1560, photo:"1534274988757-a28bf1a57c17", currency:"COP", bestTime:"Dec–Mar",  climate:"Spring yr",    lang:"Spanish" },
+  { id:4,  name:"Hanoi",         country:"Vietnam",     region:"Asia",     badge:"",            tagline:"Chaotic, delicious, and impossibly cheap — a true gem",         dailyCost:22, rating:4.8, reviews:3200, photo:"1583417319070-4a69db38a482", currency:"VND", bestTime:"Oct–Apr",  climate:"Subtropical",  lang:"Vietnamese" },
+  { id:5,  name:"Krakow",        country:"Poland",      region:"Europe",   badge:"Value Pick",  tagline:"Medieval grandeur for a fraction of Western European prices",   dailyCost:38, rating:4.6, reviews:1920, photo:"1562602833-0f4ab2fc46e3",  currency:"PLN", bestTime:"May–Sep",  climate:"Continental",  lang:"Polish" },
+  { id:6,  name:"Kathmandu",     country:"Nepal",       region:"Asia",     badge:"Adventure",   tagline:"Gateway to the Himalayas — treks, temples & teahouses",         dailyCost:20, rating:4.7, reviews:1100, photo:"1544735716-392fe2489ffa",  currency:"NPR", bestTime:"Oct–Nov",  climate:"Subtropical",  lang:"Nepali" },
+  { id:7,  name:"Lisbon",        country:"Portugal",    region:"Europe",   badge:"",            tagline:"Fado, pastéis de nata & sun-drenched pastel streets",          dailyCost:55, rating:4.9, reviews:4100, photo:"1555881400-74d7acaacd8b",  currency:"EUR", bestTime:"Mar–May",  climate:"Mediterranean",lang:"Portuguese" },
+  { id:8,  name:"Cartagena",     country:"Colombia",    region:"Americas", badge:"Romantic",    tagline:"Cobblestone charm, Caribbean beaches & warm evenings",          dailyCost:40, rating:4.7, reviews:980,  photo:"1558618047-3c8c76ca7d13",  currency:"COP", bestTime:"Dec–Apr",  climate:"Tropical",     lang:"Spanish" },
+  { id:9,  name:"Bali",          country:"Indonesia",   region:"Asia",     badge:"",            tagline:"Rice terraces, surf breaks & luxury living on a budget",        dailyCost:45, rating:4.8, reviews:5600, photo:"1537996194471-e657df975ab4", currency:"IDR", bestTime:"Apr–Sep",  climate:"Tropical",     lang:"Balinese" },
+  { id:10, name:"Budapest",      country:"Hungary",     region:"Europe",   badge:"Classic",     tagline:"Grand thermal baths, ruin bars and stunning architecture",      dailyCost:42, rating:4.8, reviews:3100, photo:"1541849546-216549ae216d",  currency:"HUF", bestTime:"Apr–Jun",  climate:"Continental",  lang:"Hungarian" },
+  { id:11, name:"Ho Chi Minh",   country:"Vietnam",     region:"Asia",     badge:"",            tagline:"Buzzing megacity with incredible street food and history",       dailyCost:24, rating:4.7, reviews:2800, photo:"1583417267269-dc7a2af3d1ba", currency:"VND", bestTime:"Dec–Apr",  climate:"Tropical",     lang:"Vietnamese" },
+  { id:12, name:"Sofia",         country:"Bulgaria",    region:"Europe",   badge:"Underrated",  tagline:"Europe's most affordable capital with a thriving arts scene",   dailyCost:28, rating:4.5, reviews:640,  photo:"1555082889-72bb55c67f9a",  currency:"BGN", bestTime:"May–Sep",  climate:"Continental",  lang:"Bulgarian" },
+  { id:13, name:"Mexico City",   country:"Mexico",      region:"Americas", badge:"",            tagline:"World-class museums, tacos and colonial grandeur for less",     dailyCost:38, rating:4.8, reviews:4200, photo:"1518638150340-f706e86654de", currency:"MXN", bestTime:"Mar–May",  climate:"Subtropical",  lang:"Spanish" },
+  { id:14, name:"Phnom Penh",    country:"Cambodia",    region:"Asia",     badge:"Budget King", tagline:"History, temples and incredibly low costs across the board",    dailyCost:18, rating:4.5, reviews:890,  photo:"1559592413-7cec4d0cae2b",  currency:"KHR", bestTime:"Nov–Feb",  climate:"Tropical",     lang:"Khmer" },
+  { id:15, name:"Tbilisi",       country:"Georgia",     region:"Europe",   badge:"",            tagline:"Wine trails, ancient cave cities and welcoming locals",         dailyCost:29, rating:4.7, reviews:760,  photo:"1563492065-d1418a687df9",  currency:"GEL", bestTime:"May–Oct",  climate:"Temperate",    lang:"Georgian" },
+  { id:16, name:"Lima",          country:"Peru",        region:"Americas", badge:"Foodie",      tagline:"World's best food scene — from ceviche to fine dining cheaply", dailyCost:32, rating:4.6, reviews:1450, photo:"1531968455001-5c5272a41129", currency:"PEN", bestTime:"Dec–Apr",  climate:"Desert",       lang:"Spanish" },
+  { id:17, name:"Tashkent",      country:"Uzbekistan",  region:"Asia",     badge:"Silk Road",   tagline:"Ancient silk road city with stunning mosaics and mosques",      dailyCost:22, rating:4.6, reviews:410,  photo:"1602472096047-cf5ef24a6f1a", currency:"UZS", bestTime:"Mar–May",  climate:"Continental",  lang:"Uzbek" },
+  { id:18, name:"Bucharest",     country:"Romania",     region:"Europe",   badge:"",            tagline:"Art nouveau palaces, craft beer and one of Europe's best nightlives", dailyCost:30, rating:4.5, reviews:980, photo:"1586520571753-e7c1cbcae5a4", currency:"RON", bestTime:"May–Sep",  climate:"Continental",  lang:"Romanian" },
+  { id:19, name:"Bogotá",        country:"Colombia",    region:"Americas", badge:"",            tagline:"High-altitude capital buzzing with coffee, art and culture",    dailyCost:30, rating:4.6, reviews:1120, photo:"1536599424071-7be1b86e7ef1", currency:"COP", bestTime:"Dec–Mar",  climate:"Andean",       lang:"Spanish" },
+  { id:20, name:"Tbilisi",       country:"Georgia",     region:"Europe",   badge:"",            tagline:"Georgian wine country with mountain hiking and hot springs",    dailyCost:28, rating:4.8, reviews:560,  photo:"1580204776041-8e707dcd3bf5", currency:"GEL", bestTime:"Jun–Sep",  climate:"Temperate",    lang:"Georgian" },
+  { id:21, name:"Chiang Rai",    country:"Thailand",    region:"Asia",     badge:"Gem",         tagline:"White Temple, Golden Triangle & quieter than its big sibling",  dailyCost:20, rating:4.7, reviews:720,  photo:"1528360983277-13d401cdc186", currency:"THB", bestTime:"Nov–Feb",  climate:"Tropical",     lang:"Thai" },
+  { id:22, name:"Porto",         country:"Portugal",    region:"Europe",   badge:"",            tagline:"Port wine, riverside charm and soul-stirring architecture",      dailyCost:48, rating:4.8, reviews:3600, photo:"1555881400-74d7acaacd8b",  currency:"EUR", bestTime:"Apr–Oct",  climate:"Mediterranean",lang:"Portuguese" },
+  { id:23, name:"La Paz",        country:"Bolivia",     region:"Americas", badge:"Highest city", tagline:"World's highest capital — cable cars, markets & Andean magic", dailyCost:18, rating:4.5, reviews:530,  photo:"1548199973-03cce0bbc87b",  currency:"BOB", bestTime:"May–Oct",  climate:"Andean",       lang:"Spanish" },
+  { id:24, name:"Kuala Lumpur",  country:"Malaysia",    region:"Asia",     badge:"",            tagline:"Modern towers, hawker markets and incredible food diversity",   dailyCost:35, rating:4.7, reviews:2900, photo:"1596422846543-75c6fc197f07", currency:"MYR", bestTime:"May–Jul",  climate:"Tropical",     lang:"Malay" },
+  { id:25, name:"Lyon",          country:"France",      region:"Europe",   badge:"Foodie",      tagline:"France's culinary capital — bouchons, markets & fewer tourists", dailyCost:52, rating:4.7, reviews:1840, photo:"1524396309943-e03f5249f002", currency:"EUR", bestTime:"May–Sep",  climate:"Continental",  lang:"French" },
+  { id:26, name:"Marseille",     country:"France",      region:"Europe",   badge:"Hidden Gem",  tagline:"Raw, authentic port city with calanques, seafood & street art",  dailyCost:48, rating:4.5, reviews:1120, photo:"1551085254-e96b210db58a", currency:"EUR", bestTime:"Jun–Sep",  climate:"Mediterranean",lang:"French" },
+  { id:27, name:"Bordeaux",      country:"France",      region:"Europe",   badge:"Wine Trail",  tagline:"UNESCO wine city with grand architecture and café culture",       dailyCost:50, rating:4.6, reviews:980,  photo:"1589519160732-57fc498494f8", currency:"EUR", bestTime:"Apr–Oct",  climate:"Oceanic",      lang:"French" },
+  { id:28, name:"Montpellier",   country:"France",      region:"Europe",   badge:"Student City",tagline:"Young, vibrant and cheaper than Paris — beaches 15 min away",   dailyCost:44, rating:4.5, reviews:640,  photo:"1558618666-fcd25c85cd64",  currency:"EUR", bestTime:"Apr–Oct",  climate:"Mediterranean",lang:"French" },
+  { id:29, name:"Strasbourg",    country:"France",      region:"Europe",   badge:"",            tagline:"Fairytale Alsatian lanes, Christmas markets & German-French fusion", dailyCost:46, rating:4.6, reviews:720, photo:"1506905925346-21bda4d32df4", currency:"EUR", bestTime:"May–Sep",  climate:"Continental",  lang:"French" },
+  { id:30, name:"Athens",        country:"Greece",      region:"Europe",   badge:"Historic",    tagline:"Ancient ruins, rooftop bars and incredible mezze on a budget",     dailyCost:45, rating:4.8, reviews:3800, photo:"1555993539-1732b0258235",  currency:"EUR", bestTime:"Apr–Jun",  climate:"Mediterranean",lang:"Greek" },
+  { id:31, name:"Thessaloniki",  country:"Greece",      region:"Europe",   badge:"Hidden Gem",  tagline:"Greece's coolest city — street food, Byzantine walls & nightlife",  dailyCost:38, rating:4.7, reviews:1250, photo:"1534430480872-2b0cf55c7986", currency:"EUR", bestTime:"May–Oct",  climate:"Mediterranean",lang:"Greek" },
+  { id:32, name:"Crete",         country:"Greece",      region:"Europe",   badge:"Beach Bliss", tagline:"Gorges, beaches, Minoan ruins and the best food in Greece",         dailyCost:50, rating:4.8, reviews:2900, photo:"1533104816566-9b71e95f0900", currency:"EUR", bestTime:"May–Oct",  climate:"Mediterranean",lang:"Greek" },
+  { id:33, name:"Rhodes",        country:"Greece",      region:"Europe",   badge:"",            tagline:"Medieval walled city, turquoise coves and wallet-friendly tavernas", dailyCost:48, rating:4.6, reviews:1640, photo:"1516483638261-f4dbaf036963", currency:"EUR", bestTime:"May–Sep",  climate:"Mediterranean",lang:"Greek" },
+  { id:34, name:"Nafplio",       country:"Greece",      region:"Europe",   badge:"Romantic",    tagline:"Greece's most charming town — castles, cobbles and sea views",      dailyCost:42, rating:4.7, reviews:680,  photo:"1586699253884-eecd8c3ffa4c", currency:"EUR", bestTime:"Apr–Oct",  climate:"Mediterranean",lang:"Greek" },
+  { id:35, name:"Seville",       country:"Spain",       region:"Europe",   badge:"Top Pick",    tagline:"Flamenco, tapas and Moorish palaces in the sunniest city in Europe", dailyCost:48, rating:4.9, reviews:3200, photo:"1559682468-b8a4a4c76b1a",  currency:"EUR", bestTime:"Mar–May",  climate:"Mediterranean",lang:"Spanish" },
+  { id:36, name:"Granada",       country:"Spain",       region:"Europe",   badge:"Hidden Gem",  tagline:"Free tapas with every drink and the Alhambra at sunset",             dailyCost:40, rating:4.8, reviews:2100, photo:"1543783207-ec64e4d95325",  currency:"EUR", bestTime:"Apr–Jun",  climate:"Mediterranean",lang:"Spanish" },
+  { id:37, name:"Valencia",      country:"Spain",       region:"Europe",   badge:"Foodie",      tagline:"Birthplace of paella, futuristic architecture & calm beaches",      dailyCost:45, rating:4.7, reviews:2400, photo:"1562705526-b0b7c98f7e84",  currency:"EUR", bestTime:"Mar–Jun",  climate:"Mediterranean",lang:"Spanish" },
+  { id:38, name:"Málaga",        country:"Spain",       region:"Europe",   badge:"Beach & City",tagline:"Picasso's birthplace — sun, sea and a buzzing old town",            dailyCost:44, rating:4.7, reviews:1800, photo:"1508050919630-b135583b29ab",  currency:"EUR", bestTime:"Apr–Oct",  climate:"Mediterranean",lang:"Spanish" },
+  { id:39, name:"San Sebastián", country:"Spain",       region:"Europe",   badge:"Pintxos",     tagline:"World's highest density of Michelin stars — on a budget with pintxos", dailyCost:52, rating:4.9, reviews:1650, photo:"1533561052604-c3d08de7f0f9", currency:"EUR", bestTime:"Jun–Sep",  climate:"Oceanic",      lang:"Spanish" },
+  { id:40, name:"Bilbao",        country:"Spain",       region:"Europe",   badge:"",            tagline:"Guggenheim, old quarter charm and superb Basque cuisine",            dailyCost:48, rating:4.6, reviews:1100, photo:"1558618666-fcd25c85cd64",  currency:"EUR", bestTime:"May–Sep",  climate:"Oceanic",      lang:"Spanish" },
+  { id:41, name:"New Orleans",   country:"USA",         region:"Americas", badge:"Top Pick",    tagline:"Jazz, Creole cuisine and festival spirit unlike anywhere else",      dailyCost:55, rating:4.8, reviews:3400, photo:"1568515387631-8dd1b56d9b8a",  currency:"USD", bestTime:"Feb–May",  climate:"Subtropical",  lang:"English" },
+  { id:42, name:"Memphis",       country:"USA",         region:"Americas", badge:"Music City",  tagline:"Birthplace of blues & BBQ — soulful, affordable and underrated",     dailyCost:48, rating:4.6, reviews:1200, photo:"1545459651-b37d7e3f5cac",  currency:"USD", bestTime:"Apr–Jun",  climate:"Humid",        lang:"English" },
+  { id:43, name:"Albuquerque",   country:"USA",         region:"Americas", badge:"Desert Gem",  tagline:"Hot air balloons, green chile food and stunning desert landscapes",  dailyCost:50, rating:4.5, reviews:780,  photo:"1558618047-3c8c76ca7d13",  currency:"USD", bestTime:"Apr–Oct",  climate:"Semi-arid",    lang:"English" },
+  { id:44, name:"Pittsburgh",    country:"USA",         region:"Americas", badge:"",            tagline:"Bridges, steel history and one of America's most liveable cities",  dailyCost:52, rating:4.6, reviews:920,  photo:"1541849546-216549ae216d",  currency:"USD", bestTime:"May–Oct",  climate:"Continental",  lang:"English" },
+  { id:45, name:"Savannah",      country:"USA",         region:"Americas", badge:"Romantic",    tagline:"Spanish moss, antebellum squares and charming Southern hospitality", dailyCost:54, rating:4.7, reviews:1450, photo:"1506905925346-21bda4d32df4", currency:"USD", bestTime:"Mar–May",  climate:"Subtropical",  lang:"English" },
+  { id:46, name:"Tucson",        country:"USA",         region:"Americas", badge:"Budget Star", tagline:"Sonoran desert, saguaro cacti and incredibly affordable living",     dailyCost:44, rating:4.5, reviews:640,  photo:"1537996194471-e657df975ab4", currency:"USD", bestTime:"Oct–Apr",  climate:"Desert",       lang:"English" },
+  { id:47, name:"Detroit",       country:"USA",         region:"Americas", badge:"",            tagline:"Motown legacy, world-class art and a booming food scene on the cheap", dailyCost:46, rating:4.5, reviews:810,  photo:"1519501025264-65ba15a82390",  currency:"USD", bestTime:"May–Sep",  climate:"Continental",  lang:"English" },
+  { id:48, name:"El Paso",       country:"USA",         region:"Americas", badge:"Border Gem",  tagline:"Tex-Mex food, desert hikes and one of America's safest big cities",  dailyCost:40, rating:4.4, reviews:520,  photo:"1506905925346-21bda4d32df4",  currency:"USD", bestTime:"Sep–Nov",  climate:"Desert",       lang:"English" },
+  { id:49, name:"Kansas City",   country:"USA",         region:"Americas", badge:"BBQ Capital",  tagline:"World-famous BBQ, jazz heritage and surprisingly cheap to visit",     dailyCost:48, rating:4.6, reviews:980,  photo:"1545459651-b37d7e3f5cac",    currency:"USD", bestTime:"Apr–Oct",  climate:"Continental",  lang:"English" },
+  { id:50, name:"Asheville",     country:"USA",         region:"Americas", badge:"Artsy",       tagline:"Blue Ridge mountains, craft breweries and vibrant arts community",   dailyCost:52, rating:4.7, reviews:1340, photo:"1506905925346-21bda4d32df4",  currency:"USD", bestTime:"Apr–Oct",  climate:"Humid",        lang:"English" },
+  { id:51, name:"Boise",         country:"USA",         region:"Americas", badge:"Outdoor Hub",  tagline:"Affordable mountain gateway — hiking, skiing and farm-to-table food", dailyCost:48, rating:4.6, reviews:720,  photo:"1519922639192-e73293ca430e",  currency:"USD", bestTime:"Jun–Sep",  climate:"Semi-arid",    lang:"English" },
+  { id:52, name:"Chattanooga",   country:"USA",         region:"Americas", badge:"",            tagline:"Tennessee River gorge, rock climbing and a revitalised waterfront",   dailyCost:46, rating:4.6, reviews:680,  photo:"1565008576549-57569a49371d",  currency:"USD", bestTime:"Apr–Oct",  climate:"Humid",        lang:"English" },
+  { id:53, name:"San Antonio",   country:"USA",         region:"Americas", badge:"Historic",    tagline:"The Alamo, River Walk and some of the best Tex-Mex in Texas",        dailyCost:50, rating:4.7, reviews:2100, photo:"1558618047-3c8c76ca7d13",    currency:"USD", bestTime:"Mar–May",  climate:"Subtropical",  lang:"English" },
+  { id:54, name:"Knoxville",     country:"USA",         region:"Americas", badge:"Budget Pick", tagline:"Gateway to the Smokies — lively downtown and very low costs",        dailyCost:42, rating:4.5, reviews:490,  photo:"1534274988757-a28bf1a57c17",  currency:"USD", bestTime:"Apr–Oct",  climate:"Humid",        lang:"English" },
+  { id:55, name:"Naples",        country:"Italy",       region:"Europe",   badge:"Pizza Capital",tagline:"World's best pizza, ancient ruins and the most alive city in Italy",  dailyCost:45, rating:4.7, reviews:2800, photo:"1534445801-0e23ee70d6a6",    currency:"EUR", bestTime:"Apr–Jun",  climate:"Mediterranean",lang:"Italian" },
+  { id:56, name:"Palermo",       country:"Italy",       region:"Europe",   badge:"Hidden Gem",  tagline:"Street food paradise — arancini, markets and Baroque grandeur",      dailyCost:38, rating:4.6, reviews:1200, photo:"1516483638261-f4dbaf036963",  currency:"EUR", bestTime:"Apr–Oct",  climate:"Mediterranean",lang:"Italian" },
+  { id:57, name:"Bologna",       country:"Italy",       region:"Europe",   badge:"Foodie",      tagline:"Italy's food capital — ragu, mortadella and medieval arcades",       dailyCost:48, rating:4.7, reviews:1560, photo:"1555881400-74d7acaacd8b",    currency:"EUR", bestTime:"Apr–Oct",  climate:"Continental",  lang:"Italian" },
+  { id:58, name:"Bari",          country:"Italy",       region:"Europe",   badge:"",            tagline:"Puglia's gateway — fresh seafood, trulli villages and warm locals",  dailyCost:40, rating:4.6, reviews:880,  photo:"1533104816566-9b71e95f0900",  currency:"EUR", bestTime:"May–Sep",  climate:"Mediterranean",lang:"Italian" },
+  { id:59, name:"Turin",         country:"Italy",       region:"Europe",   badge:"Underrated",  tagline:"Alps views, café culture and Italy's finest chocolate & vermouth",   dailyCost:46, rating:4.6, reviews:1050, photo:"1559592413-7cec4d0cae2b",    currency:"EUR", bestTime:"Apr–Oct",  climate:"Continental",  lang:"Italian" },
+  { id:60, name:"Marrakech",     country:"Morocco",     region:"Africa",   badge:"Top Pick",    tagline:"Souks, riads and spice-laden medina life from just $30 a day",       dailyCost:30, rating:4.8, reviews:3600, photo:"1539020140153-e479b8e4be2f",  currency:"MAD", bestTime:"Mar–May",  climate:"Semi-arid",    lang:"Arabic" },
+  { id:61, name:"Fes",           country:"Morocco",     region:"Africa",   badge:"Historic",    tagline:"World's largest medieval medina — a UNESCO labyrinth of craft & culture", dailyCost:28, rating:4.7, reviews:1800, photo:"1548199973-03cce0bbc87b",  currency:"MAD", bestTime:"Mar–May",  climate:"Semi-arid",    lang:"Arabic" },
+  { id:62, name:"Chefchaouen",   country:"Morocco",     region:"Africa",   badge:"Blue City",   tagline:"Impossibly photogenic blue-washed mountain town in the Rif",        dailyCost:25, rating:4.8, reviews:2100, photo:"1528360983277-13d401cdc186",  currency:"MAD", bestTime:"Mar–May",  climate:"Mediterranean",lang:"Arabic" },
+  { id:63, name:"Essaouira",     country:"Morocco",     region:"Africa",   badge:"Coastal",     tagline:"Wind-swept Atlantic port with ramparts, art and fresh seafood",      dailyCost:27, rating:4.6, reviews:940,  photo:"1506905925346-21bda4d32df4",  currency:"MAD", bestTime:"Jun–Sep",  climate:"Oceanic",      lang:"Arabic" },
+  { id:64, name:"Istanbul",      country:"Turkey",      region:"Europe",   badge:"Top Pick",    tagline:"Two continents, one city — mosques, bazaars and Bosphorus sunsets",  dailyCost:35, rating:4.9, reviews:5200, photo:"1524231757912-21f4fe3a7200",  currency:"TRY", bestTime:"Apr–May",  climate:"Mediterranean",lang:"Turkish" },
+  { id:65, name:"Cappadocia",    country:"Turkey",      region:"Europe",   badge:"Bucket List", tagline:"Hot air balloons over fairy chimneys — magical and affordable",       dailyCost:40, rating:4.9, reviews:3100, photo:"1533130061792-64b345e4a6ad",  currency:"TRY", bestTime:"Apr–Jun",  climate:"Semi-arid",    lang:"Turkish" },
+  { id:66, name:"Izmir",         country:"Turkey",      region:"Europe",   badge:"",            tagline:"Laid-back Aegean city with great food, beaches and ancient Ephesus", dailyCost:30, rating:4.6, reviews:1300, photo:"1534430480872-2b0cf55c7986",  currency:"TRY", bestTime:"Apr–Oct",  climate:"Mediterranean",lang:"Turkish" },
+  { id:67, name:"Antalya",       country:"Turkey",      region:"Europe",   badge:"Beach",       tagline:"Turquoise coast, Roman ruins and all-in value that's hard to beat",  dailyCost:32, rating:4.7, reviews:2400, photo:"1516483638261-f4dbaf036963",  currency:"TRY", bestTime:"May–Oct",  climate:"Mediterranean",lang:"Turkish" },
+  { id:68, name:"Ankara",        country:"Turkey",      region:"Europe",   badge:"Capital",     tagline:"Turkey's underrated capital — museums, local life and low prices",    dailyCost:28, rating:4.4, reviews:680,  photo:"1562705526-b0b7c98f7e84",    currency:"TRY", bestTime:"Apr–Oct",  climate:"Continental",  lang:"Turkish" },
+  { id:69, name:"Jaipur",        country:"India",       region:"Asia",     badge:"Pink City",   tagline:"Palaces, forts and bazaars in Rajasthan's most dazzling city",        dailyCost:18, rating:4.7, reviews:2900, photo:"1524492412937-b28074a5d7da",  currency:"INR", bestTime:"Oct–Mar",  climate:"Semi-arid",    lang:"Hindi" },
+  { id:70, name:"Varanasi",      country:"India",       region:"Asia",     badge:"Spiritual",   tagline:"The world's oldest living city — ghats, rituals and river sunrises",   dailyCost:15, rating:4.6, reviews:1800, photo:"1561361058-c12e96b5e1b0",    currency:"INR", bestTime:"Oct–Mar",  climate:"Tropical",     lang:"Hindi" },
+  { id:71, name:"Kolkata",       country:"India",       region:"Asia",     badge:"Cultural Hub", tagline:"Street food capital of India — rolls, mishti and colonial grandeur",  dailyCost:14, rating:4.6, reviews:1400, photo:"1536599424071-7be1b86e7ef1",  currency:"INR", bestTime:"Oct–Feb",  climate:"Tropical",     lang:"Bengali" },
+  { id:72, name:"Pondicherry",   country:"India",       region:"Asia",     badge:"French Gem",  tagline:"French quarter charm meets Tamil temples — beaches and great cafés",   dailyCost:16, rating:4.6, reviews:980,  photo:"1519922639192-e73293ca430e",  currency:"INR", bestTime:"Oct–Mar",  climate:"Tropical",     lang:"Tamil" },
+  { id:73, name:"Hampi",         country:"India",       region:"Asia",     badge:"Ancient",     tagline:"Boulders, ruins and sunsets — one of India's most magical places",    dailyCost:12, rating:4.8, reviews:1100, photo:"1506905925346-21bda4d32df4",  currency:"INR", bestTime:"Oct–Feb",  climate:"Tropical",     lang:"Kannada" },
+  { id:74, name:"Udaipur",       country:"India",       region:"Asia",     badge:"Lake City",   tagline:"Floating palaces, lake sunsets and romantic Rajasthani culture",       dailyCost:17, rating:4.8, reviews:1650, photo:"1524396309943-e03f5249f002",  currency:"INR", bestTime:"Sep–Mar",  climate:"Semi-arid",    lang:"Hindi" },
+  { id:75, name:"Tokyo",         country:"Japan",       region:"Asia",     badge:"Top Pick",    tagline:"Surprisingly affordable — ramen, convenience stores & free temples",   dailyCost:55, rating:4.9, reviews:6800, photo:"1540959733332-eab4deabeeaf",  currency:"JPY", bestTime:"Mar–May",  climate:"Temperate",    lang:"Japanese" },
+  { id:76, name:"Osaka",         country:"Japan",       region:"Asia",     badge:"Foodie",      tagline:"Japan's kitchen — takoyaki, okonomiyaki and neon street life",        dailyCost:48, rating:4.8, reviews:4200, photo:"1583839640680-25c9e4a26bda",  currency:"JPY", bestTime:"Mar–May",  climate:"Temperate",    lang:"Japanese" },
+  { id:77, name:"Kyoto",         country:"Japan",       region:"Asia",     badge:"Timeless",    tagline:"Bamboo groves, geisha districts and a thousand golden temples",        dailyCost:52, rating:4.9, reviews:5100, photo:"1528360983277-13d401cdc186",  currency:"JPY", bestTime:"Mar–May",  climate:"Temperate",    lang:"Japanese" },
+  { id:78, name:"Hiroshima",     country:"Japan",       region:"Asia",     badge:"",            tagline:"Powerful history, great street food and calm island day trips",        dailyCost:44, rating:4.8, reviews:2600, photo:"1545459651-b37d7e3f5cac",    currency:"JPY", bestTime:"Mar–Nov",  climate:"Temperate",    lang:"Japanese" },
+  { id:79, name:"Fukuoka",       country:"Japan",       region:"Asia",     badge:"Underrated",  tagline:"Japan's most liveable city — ramen capital with a beach nearby",       dailyCost:42, rating:4.7, reviews:1800, photo:"1565008576549-57569a49371d",  currency:"JPY", bestTime:"Apr–Nov",  climate:"Subtropical",  lang:"Japanese" },
+  { id:80, name:"Nairobi",       country:"Kenya",       region:"Africa",   badge:"Safari Base", tagline:"Safari gateway with a thriving food scene and urban national park",    dailyCost:35, rating:4.6, reviews:1200, photo:"1547471080-7cc2caa01a7e",    currency:"KES", bestTime:"Jul–Oct",  climate:"Subtropical",  lang:"Swahili" },
+  { id:81, name:"Zanzibar",      country:"Tanzania",    region:"Africa",   badge:"Beach Bliss", tagline:"Spice islands, coral reefs and turquoise water on a budget",           dailyCost:38, rating:4.8, reviews:1800, photo:"1507525428034-b723cf961d3e",  currency:"TZS", bestTime:"Jun–Oct",  climate:"Tropical",     lang:"Swahili" },
+  { id:82, name:"Kampala",       country:"Uganda",      region:"Africa",   badge:"Hidden Gem",  tagline:"Gorilla trekking gateway with vibrant markets and warm hospitality",   dailyCost:28, rating:4.5, reviews:540,  photo:"1548199973-03cce0bbc87b",    currency:"UGX", bestTime:"Jun–Sep",  climate:"Tropical",     lang:"English" },
+  { id:83, name:"Addis Ababa",   country:"Ethiopia",    region:"Africa",   badge:"Cultural",    tagline:"Ancient coffee culture, museums and the Horn of Africa's best food",   dailyCost:22, rating:4.5, reviews:680,  photo:"1536599424071-7be1b86e7ef1",  currency:"ETB", bestTime:"Oct–Jan",  climate:"Subtropical",  lang:"Amharic" },
+  { id:84, name:"Kigali",        country:"Rwanda",      region:"Africa",   badge:"Cleanest City",tagline:"Africa's cleanest city — gorillas, genocide memorials and great coffee", dailyCost:30, rating:4.7, reviews:760, photo:"1534274988757-a28bf1a57c17",  currency:"RWF", bestTime:"Jun–Sep",  climate:"Tropical",     lang:"Kinyarwanda" },
+  { id:85, name:"Stone Town",    country:"Tanzania",    region:"Africa",   badge:"Historic",    tagline:"UNESCO World Heritage port with Arab, Persian and African soul",        dailyCost:32, rating:4.7, reviews:920,  photo:"1558618666-fcd25c85cd64",    currency:"TZS", bestTime:"Jun–Oct",  climate:"Tropical",     lang:"Swahili" },
+  { id:86, name:"Bangkok",       country:"Thailand",    region:"Asia",     badge:"Classic",     tagline:"Temples, tuk-tuks and world-class street food at rock-bottom prices",  dailyCost:30, rating:4.8, reviews:7200, photo:"1508009603885-50cf7c579365",  currency:"THB", bestTime:"Nov–Feb",  climate:"Tropical",     lang:"Thai" },
+  { id:87, name:"Siem Reap",     country:"Cambodia",    region:"Asia",     badge:"Wonder",      tagline:"Angkor Wat at sunrise — and $2 beers at sunset",                       dailyCost:22, rating:4.8, reviews:3800, photo:"1559592413-7cec4d0cae2b",    currency:"KHR", bestTime:"Nov–Mar",  climate:"Tropical",     lang:"Khmer" },
+  { id:88, name:"Luang Prabang", country:"Laos",        region:"Asia",     badge:"Peaceful",    tagline:"Buddhist monks, waterfalls and the most serene town in SE Asia",      dailyCost:25, rating:4.8, reviews:1900, photo:"1528360983277-13d401cdc186",  currency:"LAK", bestTime:"Nov–Mar",  climate:"Tropical",     lang:"Lao" },
+  { id:89, name:"Penang",        country:"Malaysia",    region:"Asia",     badge:"Foodie",      tagline:"Asia's street food capital — hawker stalls, colonial art & beaches",   dailyCost:28, rating:4.8, reviews:2400, photo:"1596422846543-75c6fc197f07",  currency:"MYR", bestTime:"Nov–Feb",  climate:"Tropical",     lang:"Malay" },
+  { id:90, name:"Yangon",        country:"Myanmar",     region:"Asia",     badge:"Emerging",    tagline:"Golden pagodas, colonial streets and one of Asia's last frontiers",    dailyCost:20, rating:4.5, reviews:880,  photo:"1537996194471-e657df975ab4",  currency:"MMK", bestTime:"Nov–Feb",  climate:"Tropical",     lang:"Burmese" },
+  { id:91, name:"Buenos Aires",  country:"Argentina",   region:"Americas", badge:"Tango City",  tagline:"Steak, tango and European grandeur — incredible value right now",       dailyCost:35, rating:4.8, reviews:3200, photo:"1534519867-984df1762726",    currency:"ARS", bestTime:"Sep–Nov",  climate:"Temperate",    lang:"Spanish" },
+  { id:92, name:"Cusco",         country:"Peru",        region:"Americas", badge:"Inca Trail",  tagline:"Machu Picchu gateway with cobbled plazas and high-altitude markets",   dailyCost:28, rating:4.8, reviews:2800, photo:"1531968455001-5c5272a41129",  currency:"PEN", bestTime:"May–Sep",  climate:"Highland",     lang:"Spanish" },
+  { id:93, name:"Santiago",      country:"Chile",       region:"Americas", badge:"",            tagline:"Sophisticated capital with Andes views, wine and great nightlife",     dailyCost:40, rating:4.6, reviews:1600, photo:"1558618047-3c8c76ca7d13",    currency:"CLP", bestTime:"Sep–Nov",  climate:"Mediterranean",lang:"Spanish" },
+  { id:94, name:"Quito",         country:"Ecuador",     region:"Americas", badge:"UNESCO",      tagline:"Best-preserved colonial old town in the Americas at just $30/day",    dailyCost:30, rating:4.6, reviews:1100, photo:"1536599424071-7be1b86e7ef1",  currency:"USD", bestTime:"Jun–Sep",  climate:"Highland",     lang:"Spanish" },
+  { id:95, name:"Havana",        country:"Cuba",        region:"Americas", badge:"Timeless",    tagline:"Classic cars, salsa beats and crumbling colonial beauty frozen in time",dailyCost:35, rating:4.7, reviews:2100, photo:"1519922639192-e73293ca430e",  currency:"CUP", bestTime:"Dec–Apr",  climate:"Tropical",     lang:"Spanish" },
+  { id:96, name:"Antigua",       country:"Guatemala",   region:"Americas", badge:"Gem",         tagline:"Cobbled streets under volcano shadows — $25/day and utterly beautiful",dailyCost:25, rating:4.8, reviews:1400, photo:"1534274988757-a28bf1a57c17",  currency:"GTQ", bestTime:"Nov–Apr",  climate:"Subtropical",  lang:"Spanish" },
+  { id:97, name:"Panama City",   country:"Panama",      region:"Americas", badge:"Canal City",  tagline:"Modern skyline meets old town charm and the iconic canal",             dailyCost:38, rating:4.6, reviews:980,  photo:"1565008576549-57569a49371d",  currency:"USD", bestTime:"Dec–Apr",  climate:"Tropical",     lang:"Spanish" },
+  { id:98, name:"Belgrade",      country:"Serbia",      region:"Europe",   badge:"Party Capital",tagline:"Europe's wildest nightlife and one of its cheapest capitals",         dailyCost:30, rating:4.7, reviews:1650, photo:"1562602833-0f4ab2fc46e3",    currency:"RSD", bestTime:"May–Sep",  climate:"Continental",  lang:"Serbian" },
+  { id:99, name:"Tallinn",       country:"Estonia",     region:"Europe",   badge:"Medieval",    tagline:"Best-preserved medieval old town in Europe — digital and delightful",  dailyCost:40, rating:4.7, reviews:1200, photo:"1541849546-216549ae216d",    currency:"EUR", bestTime:"May–Sep",  climate:"Continental",  lang:"Estonian" },
+  { id:100,name:"Sarajevo",      country:"Bosnia",      region:"Europe",   badge:"Hidden Gem",  tagline:"East meets West — Ottoman bazaars, great coffee and moving history",   dailyCost:28, rating:4.7, reviews:870,  photo:"1555082889-72bb55c67f9a",    currency:"BAM", bestTime:"May–Sep",  climate:"Continental",  lang:"Bosnian" },
+  { id:101,name:"Vilnius",       country:"Lithuania",   region:"Europe",   badge:"Baroque City",tagline:"Europe's largest baroque old town — bohemian, cheap and beautiful",   dailyCost:36, rating:4.6, reviews:920,  photo:"1516483638261-f4dbaf036963",  currency:"EUR", bestTime:"May–Sep",  climate:"Continental",  lang:"Lithuanian" },
+  { id:102,name:"Tirana",        country:"Albania",     region:"Europe",   badge:"Emerging",    tagline:"Colourful, chaotic and the cheapest capital in Europe right now",       dailyCost:25, rating:4.5, reviews:540,  photo:"1586699253884-eecd8c3ffa4c",  currency:"ALL", bestTime:"Apr–Oct",  climate:"Mediterranean",lang:"Albanian" },
+  { id:103,name:"Amman",         country:"Jordan",      region:"Asia",     badge:"",            tagline:"Ancient Petra day trips, Roman ruins and the best hummus of your life", dailyCost:40, rating:4.6, reviews:1100, photo:"1548199973-03cce0bbc87b",   currency:"JOD", bestTime:"Mar–May",  climate:"Semi-arid",    lang:"Arabic" },
+  { id:104,name:"Muscat",        country:"Oman",        region:"Asia",     badge:"Luxe Budget", tagline:"Immaculate mosques, wadis and desert dunes — safe and surprisingly cheap", dailyCost:42, rating:4.7, reviews:860, photo:"1506905925346-21bda4d32df4", currency:"OMR", bestTime:"Oct–Mar",  climate:"Desert",       lang:"Arabic" },
+  { id:105,name:"Cairo",         country:"Egypt",       region:"Africa",   badge:"Ancient",     tagline:"Pyramids, the Nile and the world's greatest museum at budget prices",  dailyCost:25, rating:4.7, reviews:2900, photo:"1539020140153-e479b8e4be2f",  currency:"EGP", bestTime:"Oct–Apr",  climate:"Desert",       lang:"Arabic" },
+  { id:106,name:"Cape Town",     country:"South Africa",region:"Africa",   badge:"Top Pick",    tagline:"Table Mountain, penguins, wine valleys and stunning beaches",           dailyCost:45, rating:4.9, reviews:4100, photo:"1580204776041-8e707dcd3bf5",  currency:"ZAR", bestTime:"Nov–Mar",  climate:"Mediterranean",lang:"English" },
+  { id:107,name:"Accra",         country:"Ghana",       region:"Africa",   badge:"West Africa", tagline:"Vibrant arts scene, Afrobeats culture and warm Ghanaian hospitality",  dailyCost:28, rating:4.5, reviews:640,  photo:"1547471080-7cc2caa01a7e",    currency:"GHS", bestTime:"Nov–Mar",  climate:"Tropical",     lang:"English" },
+  { id:108,name:"Almaty",        country:"Kazakhstan",  region:"Asia",     badge:"Mountain City",tagline:"Soviet-era charm meets Tian Shan mountains and epic ski slopes",      dailyCost:30, rating:4.5, reviews:480,  photo:"1533104816566-9b71e95f0900",  currency:"KZT", bestTime:"May–Sep",  climate:"Continental",  lang:"Kazakh" },
+];
+
+const FILTERS = ["All","Asia","Europe","Americas","Africa"];
+const SORT_OPTIONS = [{value:"default",label:"Recommended"},{value:"price-asc",label:"Price: Low → High"},{value:"price-desc",label:"Price: High → Low"},{value:"rating",label:"Top Rated"}];
+
+const PRICING = [
+  { icon:"🏨", title:"Accommodation", rows:[["Hostel dorm","$8–15/night"],["Budget guesthouse","$15–30/night"],["Mid-range hotel","$30–60/night"]], total:"$8–60/night" },
+  { icon:"🍜", title:"Food & Drink",  rows:[["Street food meal","$1–3"],["Local restaurant","$4–8"],["Beer or coffee","$0.50–2"]], total:"$5–20/day" },
+  { icon:"🛺", title:"Getting Around",rows:[["City bus / metro","$0.30–1"],["Tuk-tuk / rideshare","$2–6"],["Overnight train/bus","$8–25"]], total:"$5–30/day" },
+  { icon:"🎭", title:"Experiences",   rows:[["Museum entry","$2–8"],["Temple / tour","$5–15"],["Day trip","$15–40"]], total:"$10–40/day" },
+];
+
+const TIPS = [
+  { n:"01", title:"Travel in shoulder season", text:"April–May and September–October offer smaller crowds and prices 20–40% lower than peak. Weather is still great in most regions." },
+  { n:"02", title:"Book flights 6–8 weeks out", text:"Midweek departures (Tue/Wed) consistently save 15–25%. Use Google Flights and set price alerts months ahead." },
+  { n:"03", title:"Stay in local neighbourhoods", text:"Move one or two streets from the tourist centre and prices drop dramatically — with more authentic experiences as a bonus." },
+  { n:"04", title:"Eat where locals eat", text:"If a menu has photos or English first, prices are higher. Find places with handwritten boards and full tables of locals." },
+  { n:"05", title:"Slow travel saves money", text:"The biggest hidden cost is frequent moving. Stay 1–2 weeks per city to negotiate better rates and cut transport bills." },
+  { n:"06", title:"Use local SIM cards", text:"A local SIM with data costs $5–15 in most countries — far cheaper than roaming. Maps and translation work offline too." },
+];
+
+const TESTIMONIALS = [
+  { q:"I did 3 months in Southeast Asia on £2,800 total. Budget Travel Bliss helped me plan every penny — and I still felt like I was living in luxury.", name:"Sarah M.", location:"Manchester, UK", init:"S" },
+  { q:"The price breakdown was a game-changer. I went to Tbilisi completely off-radar and it was the best trip of my life for under $40 a day.", name:"Marcus T.", location:"Chicago, USA", init:"M" },
+  { q:"I was nervous about travelling solo on a tight budget. The tips section gave me the confidence to book my ticket. Krakow was magical.", name:"Priya K.", location:"Toronto, Canada", init:"P" },
+];
+
+const FAQS = [
+  { q:"What does 'budget travel' actually mean?", a:"Budget travel means travelling smart — not cheap. It's about maximising experiences while keeping daily costs low, typically $20–60/day, by choosing affordable destinations, eating local and being flexible with timing." },
+  { q:"Is budget travel safe?", a:"Absolutely. Many of the world's safest and most welcoming countries are also the most affordable. Common sense, travel insurance and some research go a long way. Our featured destinations are all well-trodden and traveller-friendly." },
+  { q:"Do I need travel insurance?", a:"Yes — always. Travel insurance is one cost you should never cut. A good policy covering health, cancellations and theft costs $30–80 for a month-long trip and can save you thousands." },
+  { q:"How do I find cheap flights?", a:"Use Google Flights Explore, Skyscanner and Kiwi.com. Be flexible on dates (±3 days is huge), fly midweek, and book 6–10 weeks ahead for international routes." },
+  { q:"Can I travel cheaply with a family?", a:"Yes! Southeast Asia, Eastern Europe and Central America are especially family-friendly on a budget. Look for apartments on Airbnb and most museums offer free or discounted child entry." },
+];
+
+// Approximate rates vs USD (illustrative)
+const CURRENCIES = [
+  { code:"USD", name:"US Dollar",           rate:1,        symbol:"$",  flag:"🇺🇸" },
+  { code:"GBP", name:"British Pound",       rate:0.79,     symbol:"£",  flag:"🇬🇧" },
+  { code:"EUR", name:"Euro",                rate:0.92,     symbol:"€",  flag:"🇪🇺" },
+  { code:"AUD", name:"Australian Dollar",   rate:1.55,     symbol:"A$", flag:"🇦🇺" },
+  { code:"CAD", name:"Canadian Dollar",     rate:1.37,     symbol:"C$", flag:"🇨🇦" },
+  { code:"CHF", name:"Swiss Franc",         rate:0.90,     symbol:"Fr", flag:"🇨🇭" },
+  { code:"JPY", name:"Japanese Yen",        rate:153,      symbol:"¥",  flag:"🇯🇵" },
+  { code:"CNY", name:"Chinese Yuan",        rate:7.24,     symbol:"¥",  flag:"🇨🇳" },
+  { code:"INR", name:"Indian Rupee",        rate:83.5,     symbol:"₹",  flag:"🇮🇳" },
+  { code:"THB", name:"Thai Baht",           rate:36.5,     symbol:"฿",  flag:"🇹🇭" },
+  { code:"VND", name:"Vietnamese Dong",     rate:25400,    symbol:"₫",  flag:"🇻🇳" },
+  { code:"IDR", name:"Indonesian Rupiah",   rate:16200,    symbol:"Rp", flag:"🇮🇩" },
+  { code:"MYR", name:"Malaysian Ringgit",   rate:4.72,     symbol:"RM", flag:"🇲🇾" },
+  { code:"PHP", name:"Philippine Peso",     rate:56.5,     symbol:"₱",  flag:"🇵🇭" },
+  { code:"MMK", name:"Myanmar Kyat",        rate:2100,     symbol:"K",  flag:"🇲🇲" },
+  { code:"KHR", name:"Cambodian Riel",      rate:4070,     symbol:"៛",  flag:"🇰🇭" },
+  { code:"LAK", name:"Lao Kip",            rate:21800,    symbol:"₭",  flag:"🇱🇦" },
+  { code:"NPR", name:"Nepalese Rupee",      rate:133,      symbol:"₨",  flag:"🇳🇵" },
+  { code:"PKR", name:"Pakistani Rupee",     rate:278,      symbol:"₨",  flag:"🇵🇰" },
+  { code:"LKR", name:"Sri Lankan Rupee",    rate:310,      symbol:"₨",  flag:"🇱🇰" },
+  { code:"BDT", name:"Bangladeshi Taka",    rate:110,      symbol:"৳",  flag:"🇧🇩" },
+  { code:"KZT", name:"Kazakhstani Tenge",   rate:451,      symbol:"₸",  flag:"🇰🇿" },
+  { code:"UZS", name:"Uzbekistani Som",     rate:12700,    symbol:"soʻm",flag:"🇺🇿" },
+  { code:"GEL", name:"Georgian Lari",       rate:2.7,      symbol:"₾",  flag:"🇬🇪" },
+  { code:"AMD", name:"Armenian Dram",       rate:388,      symbol:"֏",  flag:"🇦🇲" },
+  { code:"TRY", name:"Turkish Lira",        rate:32.5,     symbol:"₺",  flag:"🇹🇷" },
+  { code:"JOD", name:"Jordanian Dinar",     rate:0.71,     symbol:"JD", flag:"🇯🇴" },
+  { code:"OMR", name:"Omani Rial",          rate:0.385,    symbol:"OMR",flag:"🇴🇲" },
+  { code:"AED", name:"UAE Dirham",          rate:3.67,     symbol:"د.إ",flag:"🇦🇪" },
+  { code:"SAR", name:"Saudi Riyal",         rate:3.75,     symbol:"SR", flag:"🇸🇦" },
+  { code:"EGP", name:"Egyptian Pound",      rate:48.5,     symbol:"E£", flag:"🇪🇬" },
+  { code:"MAD", name:"Moroccan Dirham",     rate:10.05,    symbol:"MAD",flag:"🇲🇦" },
+  { code:"TZS", name:"Tanzanian Shilling",  rate:2560,     symbol:"TSh",flag:"🇹🇿" },
+  { code:"KES", name:"Kenyan Shilling",     rate:129,      symbol:"KSh",flag:"🇰🇪" },
+  { code:"UGX", name:"Ugandan Shilling",    rate:3780,     symbol:"USh",flag:"🇺🇬" },
+  { code:"ETB", name:"Ethiopian Birr",      rate:57,       symbol:"Br", flag:"🇪🇹" },
+  { code:"RWF", name:"Rwandan Franc",       rate:1290,     symbol:"Fr", flag:"🇷🇼" },
+  { code:"GHS", name:"Ghanaian Cedi",       rate:15.5,     symbol:"₵",  flag:"🇬🇭" },
+  { code:"ZAR", name:"South African Rand",  rate:18.6,     symbol:"R",  flag:"🇿🇦" },
+  { code:"COP", name:"Colombian Peso",      rate:3950,     symbol:"$",  flag:"🇨🇴" },
+  { code:"PEN", name:"Peruvian Sol",        rate:3.73,     symbol:"S/", flag:"🇵🇪" },
+  { code:"ARS", name:"Argentine Peso",      rate:870,      symbol:"$",  flag:"🇦🇷" },
+  { code:"CLP", name:"Chilean Peso",        rate:920,      symbol:"$",  flag:"🇨🇱" },
+  { code:"BRL", name:"Brazilian Real",      rate:5.05,     symbol:"R$", flag:"🇧🇷" },
+  { code:"MXN", name:"Mexican Peso",        rate:17.2,     symbol:"$",  flag:"🇲🇽" },
+  { code:"GTQ", name:"Guatemalan Quetzal",  rate:7.76,     symbol:"Q",  flag:"🇬🇹" },
+  { code:"BOB", name:"Bolivian Boliviano",  rate:6.91,     symbol:"Bs", flag:"🇧🇴" },
+  { code:"CUP", name:"Cuban Peso",          rate:24,       symbol:"$",  flag:"🇨🇺" },
+  { code:"PLN", name:"Polish Zloty",        rate:4.05,     symbol:"zł", flag:"🇵🇱" },
+  { code:"HUF", name:"Hungarian Forint",    rate:360,      symbol:"Ft", flag:"🇭🇺" },
+  { code:"RON", name:"Romanian Leu",        rate:4.62,     symbol:"lei",flag:"🇷🇴" },
+  { code:"BGN", name:"Bulgarian Lev",       rate:1.80,     symbol:"лв", flag:"🇧🇬" },
+  { code:"RSD", name:"Serbian Dinar",       rate:108,      symbol:"din",flag:"🇷🇸" },
+  { code:"BAM", name:"Bosnia Mark",         rate:1.80,     symbol:"KM", flag:"🇧🇦" },
+  { code:"ALL", name:"Albanian Lek",        rate:95,       symbol:"L",  flag:"🇦🇱" },
+  { code:"CZK", name:"Czech Koruna",        rate:23.2,     symbol:"Kč", flag:"🇨🇿" },
+  { code:"HRK", name:"Croatian Kuna",       rate:6.95,     symbol:"kn", flag:"🇭🇷" },
+];
+
+const TIER_COSTS = {
+  backpacker: { label:"Backpacker", multiplier:0.7,  accom:10, food:8, transport:5, fun:7 },
+  midrange:   { label:"Mid-range",  multiplier:1.0,  accom:30, food:18, transport:10, fun:15 },
+  comfort:    { label:"Comfort",    multiplier:1.4,  accom:55, food:28, transport:15, fun:25 },
+};
+
+// Deduplicate by unique name+country
+const UNIQUE_DESTINATIONS = DESTINATIONS.filter((d, i, arr) =>
+  arr.findIndex(x => x.name === d.name && x.country === d.country) === i
+);
+
+// ── SEARCH BOX ────────────────────────────────────────────────
+function SearchBox({ onSearch }) {
+  const [input, setInput]         = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [highlighted, setHighlighted] = useState(-1);
+  const [open, setOpen]           = useState(false);
+  const ref                       = React.useRef(null);
+
+  // Build suggestion list from all unique destinations + countries
+  const allSuggestions = React.useMemo(() => {
+    const countries = [...new Set(UNIQUE_DESTINATIONS.map(d => d.country))].map(c => ({
+      type: "country", label: c,
+      sub: UNIQUE_DESTINATIONS.filter(d => d.country === c).map(d => d.name).join(", "),
+      query: c,
+      minCost: Math.min(...UNIQUE_DESTINATIONS.filter(d=>d.country===c).map(d=>d.dailyCost))
+    }));
+    const cities = UNIQUE_DESTINATIONS.map(d => ({
+      type: "city", label: d.name, sub: d.country + " · " + d.region,
+      query: d.name, minCost: d.dailyCost
+    }));
+    return [...cities, ...countries];
+  }, []);
+
+  const handleChange = (val) => {
+    setInput(val);
+    setHighlighted(-1);
+    if (val.trim().length < 1) { setSuggestions([]); setOpen(false); return; }
+    const q = val.toLowerCase();
+    const matches = allSuggestions.filter(s =>
+      s.label.toLowerCase().includes(q) || s.sub.toLowerCase().includes(q)
+    ).slice(0, 7);
+    setSuggestions(matches);
+    setOpen(true);
+  };
+
+  const commit = (query) => {
+    setInput(query);
+    setSuggestions([]);
+    setOpen(false);
+    onSearch(query);
+    // scroll after React updates
+    setTimeout(() => {
+      const el = document.getElementById("destinations");
+      if (el) window.scrollTo({ top: el.offsetTop - 70, behavior: "smooth" });
+    }, 60);
+  };
+
+  const handleKey = (e) => {
+    if (!open || !suggestions.length) {
+      if (e.key === "Enter") commit(input);
+      return;
+    }
+    if (e.key === "ArrowDown") { e.preventDefault(); setHighlighted(h => Math.min(h+1, suggestions.length-1)); }
+    else if (e.key === "ArrowUp") { e.preventDefault(); setHighlighted(h => Math.max(h-1, -1)); }
+    else if (e.key === "Enter") { e.preventDefault(); highlighted >= 0 ? commit(suggestions[highlighted].query) : commit(input); }
+    else if (e.key === "Escape") { setOpen(false); }
+  };
+
+  // Close on outside click
+  useEffect(() => {
+    const handler = (e) => { if (ref.current && !ref.current.contains(e.target)) setOpen(false); };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  return (
+    <div className="hero-search" ref={ref}>
+      <div className="hero-search-bar">
+        <input
+          type="text"
+          placeholder="Search city, country or region…"
+          value={input}
+          onChange={e => handleChange(e.target.value)}
+          onKeyDown={handleKey}
+          onFocus={() => input.length > 0 && setOpen(true)}
+          autoComplete="off"
+        />
+        <button onClick={() => commit(input)}>Search</button>
+      </div>
+      {open && suggestions.length > 0 && (
+        <div className="search-dropdown">
+          {suggestions.map((s, i) => (
+            <button
+              key={s.label + s.type}
+              className={`search-dropdown-item${highlighted===i?" highlighted":""}`}
+              onMouseDown={() => commit(s.query)}
+              onMouseEnter={() => setHighlighted(i)}
+            >
+              <div className="search-item-icon">{s.type === "country" ? "🌍" : "📍"}</div>
+              <div>
+                <div className="search-item-name">{s.label}</div>
+                <div className="search-item-meta">{s.sub}</div>
+              </div>
+              <div className="search-item-price">from ${s.minCost}/day</div>
+            </button>
+          ))}
+        </div>
+      )}
+      {open && input.length > 0 && suggestions.length === 0 && (
+        <div className="search-dropdown">
+          <div className="search-dropdown-empty">No destinations found for "{input}" — try another keyword.</div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ── HERO BG ───────────────────────────────────────────────────
+function HeroBg({ photos }) {
+  const [idx, setIdx] = useState(0);
+  const [loaded, setLoaded] = useState(false);
+  const imgRef = React.useRef(null);
+
+  useEffect(() => {
+    setLoaded(false);
+    const img = new Image();
+    img.src = `https://images.unsplash.com/photo-${photos[idx].id}?auto=format&fit=crop&w=1800&q=60`;
+    img.onload = () => setLoaded(true);
+  }, [idx]);
+
+  useEffect(() => {
+    const t = setInterval(() => setIdx(i => (i+1) % photos.length), 7000);
+    return () => clearInterval(t);
+  }, []);
+
+  return (
+    <div className="hero-bg">
+      <img
+        src={`https://images.unsplash.com/photo-${photos[idx].id}?auto=format&fit=crop&w=1800&q=60`}
+        alt={photos[idx].alt}
+        className={loaded ? "loaded" : ""}
+      />
+    </div>
+  );
+}
+
+// ── COMPONENTS ────────────────────────────────────────────────
+function DestModal({ dest, onClose }) {
+  // picsum gives a consistent landscape photo as placeholder (always loads, no API key)
+  const placeholder = `https://picsum.photos/seed/${dest.id}/800/500`;
+  const [imgSrc, setImgSrc] = useState(placeholder);
+
+  useEffect(() => {
+    const onKey = e => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
+
+  useEffect(() => {
+    // Wikipedia action API with origin=* works from file:// and any origin
+    const url = `https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(dest.name)}&prop=pageimages&format=json&pithumbsize=800&origin=*`;
+    fetch(url)
+      .then(r => r.json())
+      .then(data => {
+        const pages = data.query && data.query.pages;
+        const page = pages && Object.values(pages)[0];
+        if (page && page.thumbnail && page.thumbnail.source) {
+          const wikiUrl = page.thumbnail.source;
+          // Preload before swapping so the old image stays visible until new one is ready
+          const img = new Image();
+          img.onload = () => setImgSrc(wikiUrl);
+          img.src = wikiUrl;
+        }
+      })
+      .catch(() => {});
+  }, [dest.name]);
+
+  const c = dest.dailyCost;
+  const breakdown = [
+    ['Accommodation',   Math.round(c * 0.40)],
+    ['Food & drinks',   Math.round(c * 0.30)],
+    ['Local transport', Math.round(c * 0.15)],
+    ['Activities',      Math.round(c * 0.15)],
+  ];
+
+  return (
+    <div className="modal-backdrop" onClick={onClose}>
+      <div className="modal" onClick={e => e.stopPropagation()}>
+        <img className="modal-img" src={imgSrc} alt={dest.name} />
+        <button className="modal-close" onClick={onClose} aria-label="Close">✕</button>
+        <div className="modal-body">
+          {dest.badge && <div className="modal-badge">{dest.badge}</div>}
+          <div className="modal-name">{dest.name}</div>
+          <div className="modal-country">{dest.country} · {dest.region}</div>
+          <div className="modal-tagline">{dest.tagline}</div>
+          <div className="modal-meta">
+            <div className="modal-meta-item">
+              <div className="modal-meta-label">Daily cost</div>
+              <div className="modal-price">${dest.dailyCost}<span style={{fontFamily:'var(--font-body)',fontSize:'0.65rem',color:'#707a8a',fontWeight:400}}>/day</span></div>
+            </div>
+            <div className="modal-meta-item">
+              <div className="modal-meta-label">Best time</div>
+              <div className="modal-meta-value">{dest.bestTime}</div>
+            </div>
+            <div className="modal-meta-item">
+              <div className="modal-meta-label">Climate</div>
+              <div className="modal-meta-value">{dest.climate}</div>
+            </div>
+            <div className="modal-meta-item">
+              <div className="modal-meta-label">Currency</div>
+              <div className="modal-meta-value">{dest.currency}</div>
+            </div>
+            <div className="modal-meta-item">
+              <div className="modal-meta-label">Language</div>
+              <div className="modal-meta-value">{dest.lang}</div>
+            </div>
+            <div className="modal-meta-item">
+              <div className="modal-meta-label">Rating</div>
+              <div className="modal-meta-value" style={{color:'#0ecb81'}}>★ {dest.rating}</div>
+            </div>
+          </div>
+          <div className="modal-breakdown">
+            <div className="modal-breakdown-title">Typical day cost breakdown</div>
+            {breakdown.map(([label, amt]) => (
+              <div className="modal-row" key={label}>
+                <span className="modal-row-label">{label}</span>
+                <span className="modal-row-value">${amt}</span>
+              </div>
+            ))}
+            <div className="modal-row">
+              <span className="modal-row-label">Total per day</span>
+              <span className="modal-row-value">${dest.dailyCost}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function DestCard({ dest, onOpen }) {
+  return (
+    <div className="dest-card" onClick={() => onOpen(dest)} role="button" tabIndex={0} onKeyDown={e => e.key === 'Enter' && onOpen(dest)}>
+      {dest.badge && <div className="dest-badge" style={{position:'relative',top:0,left:0,display:'inline-block',margin:'1rem 1.3rem 0'}}>{dest.badge}</div>}
+      <div className="dest-body">
+        <div className="dest-region">{dest.region} · {dest.country}</div>
+        <div className="dest-name">{dest.name}</div>
+        <div className="dest-tagline">{dest.tagline}</div>
+        <div className="dest-footer">
+          <div className="dest-price">${dest.dailyCost}<span> / day avg.</span></div>
+          <div className="dest-rating"><strong>★ {dest.rating}</strong> ({dest.reviews.toLocaleString()})</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Destinations({ search }) {
+  const [filter, setFilter]   = useState("All");
+  const [sort, setSort]       = useState("default");
+  const [selected, setSelected] = useState(null);
+  let items = DESTINATIONS.filter(d => {
+    const matchR = filter === "All" || d.region === filter;
+    const q = search.toLowerCase();
+    const matchS = !q || d.name.toLowerCase().includes(q) || d.country.toLowerCase().includes(q) || d.region.toLowerCase().includes(q);
+    return matchR && matchS;
+  });
+  if (sort === "price-asc")  items = [...items].sort((a,b) => a.dailyCost - b.dailyCost);
+  if (sort === "price-desc") items = [...items].sort((a,b) => b.dailyCost - a.dailyCost);
+  if (sort === "rating")     items = [...items].sort((a,b) => b.rating - a.rating);
+  return (
+    <section id="destinations">
+      <div className="section-label">Where to go</div>
+      <div className="section-title">Top <em>cheap</em> destinations</div>
+      <div className="dest-controls">
+        {FILTERS.map(f => <button key={f} className={`filter-btn${filter===f?" active":""}`} onClick={()=>setFilter(f)}>{f}</button>)}
+        <select className="sort-select" value={sort} onChange={e=>setSort(e.target.value)}>
+          {SORT_OPTIONS.map(o=><option key={o.value} value={o.value}>{o.label}</option>)}
+        </select>
+      </div>
+      <div className="dest-grid">
+        {items.length ? items.map(d=><DestCard key={d.id} dest={d} onOpen={setSelected}/>) :
+          <div style={{color:'#707a8a', gridColumn:'1/-1', padding:'2rem 0'}}>No destinations match. Try a different keyword.</div>}
+      </div>
+      {selected && <DestModal dest={selected} onClose={() => setSelected(null)} />}
+    </section>
+  );
+}
+
+function Pricing() {
+  return (
+    <section id="pricing">
+      <div className="section-label">Know before you go</div>
+      <div className="section-title">Realistic <em>cost</em> breakdown</div>
+      <p style={{marginTop:'0.6rem',color:'var(--ink-light)',fontSize:'0.9rem',maxWidth:'520px'}}>Typical daily costs across our featured budget destinations — so you can plan with confidence.</p>
+      <div className="pricing-grid">
+        {PRICING.map(p=>(
+          <div className="pricing-card" key={p.title}>
+            <div className="pricing-card-icon">{p.icon}</div>
+            <div className="pricing-card-title">{p.title}</div>
+            {p.rows.map(([l,v])=>(
+              <div className="pricing-row" key={l}>
+                <span className="pricing-row-label">{l}</span>
+                <span className="pricing-row-val">{v}</span>
+              </div>
+            ))}
+            <div className="pricing-total"><span>Total range</span><span className="pricing-total-val">{p.total}</span></div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function BudgetCalculator() {
+  const [dest, setDest]   = useState(DESTINATIONS[0].id);
+  const [days, setDays]   = useState(14);
+  const [tier, setTier]   = useState("midrange");
+  const [budgetNum, setBudgetNum] = useState(800);
+
+  const d   = DESTINATIONS.find(x=>x.id===dest);
+  const t   = TIER_COSTS[tier];
+  const baseDaily = d.dailyCost * t.multiplier;
+  const total     = Math.round(baseDaily * days);
+  const breakdown = [
+    { label:"Accommodation", val: Math.round(t.accom * days * (d.dailyCost/35)), pct:35 },
+    { label:"Food & drink",  val: Math.round(t.food  * days * (d.dailyCost/35)), pct:28 },
+    { label:"Transport",     val: Math.round(t.transport * days),                 pct:18 },
+    { label:"Activities",    val: Math.round(t.fun   * days * (d.dailyCost/35)), pct:19 },
+  ];
+  const sum = breakdown.reduce((a,b)=>a+b.val,0);
+  const canAfford = budgetNum > 0 && budgetNum >= sum;
+
+  return (
+    <section id="calculator">
+      <div className="section-label">Plan your trip</div>
+      <div className="section-title">Budget <em>calculator</em></div>
+      <p style={{marginTop:'0.6rem',color:'var(--ink-light)',fontSize:'0.9rem',maxWidth:'520px'}}>Get a realistic estimate for your trip in seconds. Adjust destination, duration and travel style.</p>
+      <div className="calc-layout">
+        <div className="calc-inputs">
+          <div className="calc-field">
+            <label>Destination</label>
+            <select value={dest} onChange={e=>setDest(+e.target.value)}>
+              {DESTINATIONS.map(d=><option key={d.id} value={d.id}>{d.name}, {d.country}</option>)}
+            </select>
+          </div>
+          <div className="calc-field">
+            <label>Duration — {days} days</label>
+            <input type="range" min={3} max={90} value={days} onChange={e=>setDays(+e.target.value)}/>
+            <div style={{display:'flex',justifyContent:'space-between',fontSize:'0.72rem',color:'var(--ink-light)',marginTop:'0.2rem'}}>
+              <span>3 days</span><span>90 days</span>
+            </div>
+          </div>
+          <div className="calc-field">
+            <label>Travel style</label>
+            <div className="calc-tiers">
+              {Object.entries(TIER_COSTS).map(([k,v])=>(
+                <button key={k} className={`tier-btn${tier===k?" active":""}`} onClick={()=>setTier(k)}>{v.label}</button>
+              ))}
+            </div>
+          </div>
+          <div className="calc-field">
+            <label>My budget (USD)</label>
+            <input type="number" defaultValue="800" min="1" onChange={e=>{ const v=parseInt(e.target.value,10); if(v>0) setBudgetNum(v); }} style={{fontFamily:'var(--font-display)',fontSize:'1.3rem'}}/>
+          </div>
+        </div>
+        <div className="calc-result">
+          <div className="calc-result-dest">{d.name}, {d.country}</div>
+          <div className="calc-result-total">${sum.toLocaleString()}</div>
+          <div className="calc-result-period">estimated for {days} days · {TIER_COSTS[tier].label}</div>
+          <div className="calc-breakdown">
+            {breakdown.map(b=>(
+              <div className="calc-bar-row" key={b.label}>
+                <div className="calc-bar-header">
+                  <span className="calc-bar-label">{b.label}</span>
+                  <span className="calc-bar-val">${b.val.toLocaleString()}</span>
+                </div>
+                <div className="calc-bar-track">
+                  <div className="calc-bar-fill" style={{width:`${Math.round(b.val/sum*100)}%`}}/>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="calc-afford" style={{color: canAfford ? 'oklch(0.75 0.12 155)' : 'var(--coral)'}}>
+            {canAfford
+              ? `✓ Your $${budgetNum.toLocaleString()} budget covers this trip — with $${(budgetNum-sum).toLocaleString()} to spare.`
+              : `⚠ You're $${(sum-budgetNum).toLocaleString()} short. Try reducing days or switching to Backpacker style.`
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CurrencyConverter() {
+  const [amount, setAmount] = useState(100);
+  const [from,   setFrom]   = useState("USD");
+  const [to,     setTo]     = useState("THB");
+
+  const fromC = CURRENCIES.find(c=>c.code===from);
+  const toC   = CURRENCIES.find(c=>c.code===to);
+  const usd   = (amount || 0) / fromC.rate;
+  const result = (usd * toC.rate);
+  const fmt = (v, code) => {
+    const c = CURRENCIES.find(x=>x.code===code);
+    if (v >= 1000) return c.symbol + Math.round(v).toLocaleString();
+    return c.symbol + v.toFixed(2);
+  };
+
+  const swap = () => { setFrom(to); setTo(from); };
+
+  // Quick reference: $50 in various currencies
+  const quickAmounts = [50, 100, 500];
+
+  return (
+    <section id="converter">
+      <div className="section-label">Spend smart</div>
+      <div className="section-title">Currency <em>converter</em></div>
+      <p style={{marginTop:'0.6rem',color:'var(--ink-light)',fontSize:'0.9rem',maxWidth:'520px'}}>Indicative rates to help you budget. Always check your bank's rate before travel.</p>
+      <div className="conv-layout">
+        <div className="conv-box">
+          <div className="conv-field">
+            <label>You have</label>
+            <div className="conv-row">
+              <input type="number" defaultValue="100" onChange={e=>{ const v=parseFloat(e.target.value); setAmount(isNaN(v)?0:v); }}/>
+              <select value={from} onChange={e=>setFrom(e.target.value)}>
+                {CURRENCIES.map(c=><option key={c.code} value={c.code}>{c.flag} {c.code} — {c.name}</option>)}
+              </select>
+            </div>
+          </div>
+          <div className="conv-swap"><button onClick={swap} title="Swap currencies">⇅</button></div>
+          <div className="conv-field">
+            <label>You get</label>
+            <div className="conv-row">
+              <input type="number" readOnly value={result >= 1000 ? Math.round(result) : +result.toFixed(2)} style={{background:'var(--teal-light)',color:'var(--teal)',fontWeight:500}}/>
+              <select value={to} onChange={e=>setTo(e.target.value)}>
+                {CURRENCIES.map(c=><option key={c.code} value={c.code}>{c.flag} {c.code} — {c.name}</option>)}
+              </select>
+            </div>
+          </div>
+          <div className="conv-result-big">{fmt(result, to)}</div>
+          <div className="conv-rate-note">1 {from} ≈ {fmt(toC.rate / fromC.rate, to)} · Indicative rates only</div>
+        </div>
+        <div>
+          <p style={{fontSize:'0.78rem',fontWeight:500,letterSpacing:'0.1em',textTransform:'uppercase',color:'var(--ink-light)',marginBottom:'0.8rem'}}>$1 USD across all currencies</p>
+          <div className="conv-quick">
+            {CURRENCIES.filter(c=>c.code!=="USD").map(c=>(
+              <div className="conv-quick-item" key={c.code} onClick={()=>{setFrom("USD");setTo(c.code);}}>
+                <div className="conv-quick-left">
+                  <span className="conv-quick-flag">{c.flag}</span>
+                  <div>
+                    <div className="conv-quick-label">{c.name}</div>
+                    <div className="conv-quick-name">{c.code}</div>
+                  </div>
+                </div>
+                <div style={{textAlign:'right'}}>
+                  <div className="conv-quick-val">{c.symbol}{c.rate >= 1000 ? Math.round(c.rate).toLocaleString() : c.rate >= 10 ? c.rate.toFixed(1) : c.rate.toFixed(2)}</div>
+                  <div className="conv-quick-currency">per $1</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Tips() {
+  return (
+    <section id="tips">
+      <div className="section-label">Pro advice</div>
+      <div className="section-title">Travel <em>smarter,</em> not cheaper</div>
+      <div className="tips-grid">
+        {TIPS.map(t=>(
+          <div className="tip-card" key={t.n}>
+            <div className="tip-num">{t.n}</div>
+            <div className="tip-title">{t.title}</div>
+            <div className="tip-text">{t.text}</div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function Testimonials() {
+  return (
+    <section id="testimonials">
+      <div className="section-label">Real travellers</div>
+      <div className="section-title">Stories from the <em>road</em></div>
+      <div className="testi-grid">
+        {TESTIMONIALS.map(t=>(
+          <div className="testi-card" key={t.name}>
+            <div className="testi-quote">"{t.q}"</div>
+            <div className="testi-author">
+              <div className="testi-avatar">{t.init}</div>
+              <div>
+                <div className="testi-name">{t.name}</div>
+                <div className="testi-location">{t.location}</div>
+                <div className="testi-stars">★★★★★</div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function Newsletter() {
+  const [email, setEmail] = useState("");
+  const [sent, setSent]   = useState(false);
+  return (
+    <section id="newsletter">
+      <div className="newsletter-inner">
+        <div className="section-label" style={{color:'var(--teal)'}}>Stay in the loop</div>
+        <div className="section-title">Get the best <em>deals</em> first</div>
+        <p className="newsletter-sub">Weekly flight deals, destination deep-dives and money-saving tips. No spam, ever.</p>
+        {sent
+          ? <div style={{marginTop:'2rem',background:'#fff',borderRadius:'12px',padding:'1.2rem 1.6rem',color:'var(--teal)',fontWeight:500}}>✓ You're on the list! Welcome to Budget Travel Bliss.</div>
+          : <>
+              <div className="newsletter-form">
+                <input type="email" placeholder="your@email.com" value={email} onChange={e=>setEmail(e.target.value)}/>
+                <button onClick={()=>email&&setSent(true)}>Subscribe</button>
+              </div>
+              <p className="newsletter-note">Join 48,000+ travellers. Unsubscribe anytime.</p>
+            </>
+        }
+      </div>
+    </section>
+  );
+}
+
+function FAQ() {
+  const [open, setOpen] = useState(null);
+  return (
+    <section id="faq">
+      <div className="section-label">Got questions?</div>
+      <div className="section-title">Frequently <em>asked</em></div>
+      <div className="faq-list">
+        {FAQS.map((f,i)=>(
+          <div className="faq-item" key={i}>
+            <button className="faq-q" onClick={()=>setOpen(open===i?null:i)}>
+              {f.q}
+              <span className={`faq-icon${open===i?" open":""}`}>+</span>
+            </button>
+            <div className={`faq-a${open===i?" open":""}`}><p>{f.a}</p></div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function TweaksPanel({ visible }) {
+  const [accentColor, setAccentColor] = useState(TWEAK_DEFAULTS.accentColor);
+  const [cardStyle,   setCardStyle]   = useState(TWEAK_DEFAULTS.cardStyle);
+  const [heroSize,    setHeroSize]    = useState(TWEAK_DEFAULTS.heroSize);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    const palettes = { teal:["oklch(0.52 0.10 192)","oklch(0.92 0.04 192)"], indigo:["oklch(0.52 0.14 265)","oklch(0.92 0.04 265)"], sage:["oklch(0.50 0.10 155)","oklch(0.92 0.04 155)"] };
+    const [main, light] = palettes[accentColor] || palettes.teal;
+    root.style.setProperty("--teal", main);
+    root.style.setProperty("--teal-light", light);
+    window.parent.postMessage({type:'__edit_mode_set_keys', edits:{accentColor, cardStyle, heroSize}}, '*');
+  }, [accentColor, cardStyle, heroSize]);
+
+  useEffect(() => {
+    const hero = document.querySelector(".hero h1");
+    if (hero) hero.style.fontSize = `clamp(2.5rem, ${heroSize/10}vw, ${heroSize/14}rem)`;
+  }, [heroSize]);
+
+  useEffect(() => {
+    const r = {"flat":"8px","elevated":"16px","pill":"24px"}[cardStyle]||"16px";
+    document.querySelectorAll(".dest-card,.pricing-card,.tip-card").forEach(c => { c.style.borderRadius = r; });
+  }, [cardStyle]);
+
+  return (
+    <div className={`tweaks-panel${visible?" visible":""}`}>
+      <div className="tweaks-title">Tweaks</div>
+      <div className="tweak-row">
+        <label>Accent colour</label>
+        <select value={accentColor} onChange={e=>setAccentColor(e.target.value)}>
+          <option value="teal">Ocean Teal</option>
+          <option value="indigo">Deep Indigo</option>
+          <option value="sage">Forest Sage</option>
+        </select>
+      </div>
+      <div className="tweak-row">
+        <label>Card style</label>
+        <select value={cardStyle} onChange={e=>setCardStyle(e.target.value)}>
+          <option value="elevated">Elevated</option>
+          <option value="flat">Flat</option>
+          <option value="pill">Rounded</option>
+        </select>
+      </div>
+      <div className="tweak-row">
+        <label>Hero size: {heroSize}</label>
+        <input type="range" min={60} max={110} value={heroSize} onChange={e=>setHeroSize(+e.target.value)}/>
+      </div>
+    </div>
+  );
+}
+
+// ── PHOTO GALLERY ─────────────────────────────────────────────
+const GALLERY_PHOTOS = [
+  { photo:"1506905925346-21bda4d32df4", dest:"Muscat, Oman",         tag:"Desert & Sea" },
+  { photo:"1519922639192-e73293ca430e", dest:"Chiang Mai, Thailand", tag:"Temples" },
+  { photo:"1555881400-74d7acaacd8b",   dest:"Lisbon, Portugal",      tag:"City Life" },
+  { photo:"1537996194471-e657df975ab4", dest:"Bali, Indonesia",      tag:"Rice Terraces" },
+  { photo:"1541849546-216549ae216d",   dest:"Budapest, Hungary",      tag:"Architecture" },
+  { photo:"1583417319070-4a69db38a482", dest:"Hanoi, Vietnam",       tag:"Street Food" },
+  { photo:"1534274988757-a28bf1a57c17", dest:"Medellín, Colombia",   tag:"Urban Culture" },
+  { photo:"1544735716-392fe2489ffa",   dest:"Kathmandu, Nepal",       tag:"Himalayan Trek" },
+];
+
+function GalleryItem({ item, index, onClick }) {
+  const [loaded, setLoaded] = useState(false);
+  const url = `https://images.unsplash.com/photo-${item.photo}?auto=format&fit=crop&w=800&q=75`;
+  return (
+    <div className="gallery-item" onClick={() => onClick(index)}>
+      <img
+        src={url}
+        alt={item.dest}
+        loading="lazy"
+        className={loaded ? "loaded" : ""}
+        onLoad={() => setLoaded(true)}
+        style={{ height: index === 0 ? "100%" : "220px" }}
+      />
+      <div className="gallery-item-overlay">
+        <div>
+          <div className="gallery-item-label">{item.dest}</div>
+          <div className="gallery-item-sub">{item.tag}</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function PhotoGallery() {
+  const [lightboxIdx, setLightboxIdx] = useState(null);
+  const [lbLoaded, setLbLoaded] = useState(false);
+
+  const open  = (i) => { setLightboxIdx(i); setLbLoaded(false); };
+  const close = ()  => setLightboxIdx(null);
+  const prev  = (e) => { e.stopPropagation(); setLbLoaded(false); setLightboxIdx(i => (i - 1 + GALLERY_PHOTOS.length) % GALLERY_PHOTOS.length); };
+  const next  = (e) => { e.stopPropagation(); setLbLoaded(false); setLightboxIdx(i => (i + 1) % GALLERY_PHOTOS.length); };
+
+  useEffect(() => {
+    const handler = (e) => { if (e.key === "Escape") close(); if (e.key === "ArrowLeft") setLightboxIdx(i => i !== null ? (i-1+GALLERY_PHOTOS.length)%GALLERY_PHOTOS.length : i); if (e.key === "ArrowRight") setLightboxIdx(i => i !== null ? (i+1)%GALLERY_PHOTOS.length : i); };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, []);
+
+  const lbItem = lightboxIdx !== null ? GALLERY_PHOTOS[lightboxIdx] : null;
+
+  return (
+    <>
+      <section id="gallery">
+        <div className="section-label">Inspire your wanderlust</div>
+        <div className="section-title">Real places, <em>real photos</em></div>
+        <p className="gallery-subtitle">Click any photo to explore — every image links to a real destination you can visit on a budget.</p>
+        <div className="gallery-grid">
+          {GALLERY_PHOTOS.map((item, i) => (
+            <GalleryItem key={item.photo} item={item} index={i} onClick={open} />
+          ))}
+        </div>
+        <div className="gallery-cta">
+          <button className="gallery-cta-btn" onClick={() => document.getElementById("destinations").scrollIntoView({behavior:"smooth"})}>
+            Browse all 108 destinations →
+          </button>
+        </div>
+      </section>
+
+      <div className={`lightbox${lightboxIdx !== null ? " open" : ""}`} onClick={close}>
+        {lbItem && (
+          <div className="lightbox-img-wrap" onClick={e => e.stopPropagation()}>
+            <button className="lightbox-close" onClick={close}>×</button>
+            <button className="lightbox-nav lightbox-prev" onClick={prev}>‹</button>
+            <img
+              src={`https://images.unsplash.com/photo-${lbItem.photo}?auto=format&fit=crop&w=1400&q=85`}
+              alt={lbItem.dest}
+              className={lbLoaded ? "loaded" : ""}
+              onLoad={() => setLbLoaded(true)}
+              style={{ opacity: lbLoaded ? 1 : 0, transition: "opacity 0.4s" }}
+            />
+            <button className="lightbox-nav lightbox-next" onClick={next}>›</button>
+            <div className="lightbox-caption">{lbItem.dest} · {lbItem.tag}</div>
+          </div>
+        )}
+      </div>
+    </>
+  );
+}
+
+function App() {
+  const [search,        setSearch]        = useState("");
+  const [tweaksVisible, setTweaksVisible] = useState(false);
+
+  useEffect(() => {
+    window.addEventListener("message", e => {
+      if (e.data?.type === "__activate_edit_mode")   setTweaksVisible(true);
+      if (e.data?.type === "__deactivate_edit_mode") setTweaksVisible(false);
+    });
+    window.parent.postMessage({type:"__edit_mode_available"}, "*");
+  }, []);
+
+  const handleSearch = useCallback((q) => {
+    setSearch(q);
+  }, []);
+
+  // Hero background photos (rotating)
+  const HERO_PHOTOS = [
+    { id:"1506905925346-21bda4d32df4", alt:"Mountain landscape at golden hour" },
+    { id:"1476514525535-07fb3b4ae5f1", alt:"Tropical beach with turquoise water" },
+    { id:"1519922639192-e73293ca430e", alt:"Chiang Mai temple at sunset" },
+    { id:"1555881400-74d7acaacd8b", alt:"Lisbon colorful streets" },
+  ];
+
+  return (
+    <>
+      <section className="hero">
+        <HeroBg photos={HERO_PHOTOS} />
+        <div className="hero-label">Budget Travel Bliss · Est. 2024</div>
+        <h1>The world on a <em>budget</em><br/>never looked this good</h1>
+        <p className="hero-sub">Handpicked destinations where your money goes further — without sacrificing a single experience.</p>
+        <div className="hero-stats">
+          <div><div className="hero-stat-num">108</div><div className="hero-stat-label">Featured cities</div></div>
+          <div><div className="hero-stat-num">$28</div><div className="hero-stat-label">Avg. daily cost</div></div>
+          <div><div className="hero-stat-num">48k</div><div className="hero-stat-label">Happy travellers</div></div>
+        </div>
+        <SearchBox onSearch={handleSearch} />
+      </section>
+
+      <Destinations search={search}/>
+      <Pricing/>
+      <BudgetCalculator/>
+      <CurrencyConverter/>
+      <Tips/>
+      <PhotoGallery/>
+      <Testimonials/>
+      <Newsletter/>
+      <FAQ/>
+
+      <footer>
+        <div className="footer-logo">Budget <span>Travel</span> Bliss</div>
+        <ul className="footer-links">
+          <li><a href="privacy.html">Privacy Policy</a></li><li><a href="terms.html">Terms of Service</a></li>
+        </ul>
+        <div className="footer-copy">© 2024 Budget Travel Bliss. All rights reserved.</div>
+      </footer>
+      <TweaksPanel visible={tweaksVisible}/>
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>

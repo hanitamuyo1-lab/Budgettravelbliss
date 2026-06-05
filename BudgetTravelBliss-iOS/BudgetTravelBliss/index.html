@@ -18,7 +18,7 @@
     --font-body:    'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     --font-plex:    'IBM Plex Mono', monospace;
   }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; overflow-x: hidden; max-width: 100%; }
   body { font-family: var(--font-body); background: #000; color: #eaecef; font-size: 14px; line-height: 1.5; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 
   /* NAV — top-nav-dark: 64px, canvas-dark bg, yellow wordmark */
@@ -488,7 +488,7 @@ const DESTINATIONS = [
   { id:134,name:"Manchester",   country:"England",          region:"Europe",   badge:"",            tagline:"Northern Quarter culture, world-famous music and iconic football history",       dailyCost:45, rating:4.7, reviews:2400, photo:"1520637836993-4f6d5e6e6b75",  currency:"GBP", bestTime:"May–Sep",  climate:"Temperate",    lang:"English" },
   { id:135,name:"Liverpool",    country:"England",          region:"Europe",   badge:"Beatles City", tagline:"Iconic waterfront, the Beatles legacy and some of England's best free museums",  dailyCost:40, rating:4.7, reviews:2100, photo:"1516738904029-f3e3b65e56f0",  currency:"GBP", bestTime:"May–Sep",  climate:"Temperate",    lang:"English" },
   { id:136,name:"Bristol",      country:"England",          region:"Europe",   badge:"Street Art",   tagline:"Banksy's hometown — harbourside culture, indie cafés and great vegan food",     dailyCost:42, rating:4.7, reviews:1600, photo:"1513635269975-59663e0ac1ad",  currency:"GBP", bestTime:"May–Sep",  climate:"Temperate",    lang:"English" },
-  { id:137,name:"York",         country:"England",          region:"Europe",   badge:"Medieval",     tagline:"Roman walls, Viking history and the magnificent Gothic Minster",                dailyCost:42, rating:4.8, reviews:1800, photo:"1564507143870-d50ef64cc2c2",  currency:"GBP", bestTime:"Apr–Oct",  climate:"Temperate",    lang:"English" },
+  { id:137,name:"York",         country:"England",          region:"Europe",   badge:"Medieval",     tagline:"Roman walls, Viking history and the magnificent Gothic Minster",                dailyCost:42, rating:4.8, reviews:1800, photo:"1564507143870-d50ef64cc2c2",  currency:"GBP", bestTime:"May–Sep",  climate:"Temperate",    lang:"English" },
   { id:138,name:"Newcastle",    country:"England",          region:"Europe",   badge:"Geordie Soul",  tagline:"Iconic bridges, legendary nightlife and the warmest welcome in England",        dailyCost:38, rating:4.6, reviews:1200, photo:"1580994249872-3b3b1b2c3fc2",  currency:"GBP", bestTime:"May–Sep",  climate:"Temperate",    lang:"English" },
   { id:139,name:"Dublin",       country:"Ireland",          region:"Europe",   badge:"",            tagline:"Georgian squares, legendary pubs and the world's greatest literary culture",     dailyCost:55, rating:4.8, reviews:3800, photo:"1524645343903-03de1e58e3d7",  currency:"EUR", bestTime:"May–Sep",  climate:"Temperate",    lang:"English" },
   { id:140,name:"Galway",       country:"Ireland",          region:"Europe",   badge:"Bohemian",     tagline:"Trad music in every pub, wild Atlantic coastline and pure west-coast magic",    dailyCost:42, rating:4.8, reviews:1400, photo:"1566438480900-d4d7fd0a9ef1",  currency:"EUR", bestTime:"May–Sep",  climate:"Temperate",    lang:"Irish" },

@@ -1,0 +1,17 @@
+<svg viewBox="0 0 260 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Budget Travel Bliss">
+
+  <!-- Black background -->
+  <rect width="260" height="64" fill="#000"/>
+
+  <!-- Location pin — yellow, represents destination -->
+  <path d="M26 4 C15.5 4 7 12.5 7 23 C7 34.5 26 56 26 56 C26 56 45 34.5 45 23 C45 12.5 36.5 4 26 4Z" fill="#fcd535"/>
+  <!-- Inner circle cutout -->
+  <circle cx="26" cy="22" r="8.5" fill="#000"/>
+  <!-- Dollar sign inside pin — represents budget -->
+  <text x="26" y="27" font-family="Inter,-apple-system,sans-serif" font-size="12" font-weight="700" fill="#fcd535" text-anchor="middle">$</text>
+
+  <!-- Wordmark -->
+  <text x="58" y="26" font-family="Inter,-apple-system,BlinkMacSystemFont,sans-serif" font-size="19" font-weight="700" fill="#ffffff" letter-spacing="-0.4">Budget</text>
+  <text x="58" y="46" font-family="Inter,-apple-system,BlinkMacSystemFont,sans-serif" font-size="13" font-weight="500" fill="#fcd535" letter-spacing="2">TRAVEL BLISS</text>
+
+</svg>

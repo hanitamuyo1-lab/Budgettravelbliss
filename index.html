@@ -626,11 +626,11 @@ function SearchBox({ onSearch }) {
   const handleChange = (val) => {
     setInput(val);
     setHighlighted(-1);
-    if (val.trim().length < 1) { setSuggestions([]); setOpen(false); return; }
+    if (val.trim().length < 1) { setSuggestions(allSuggestions); setOpen(true); return; }
     const q = val.toLowerCase();
     const matches = allSuggestions.filter(s =>
       s.label.toLowerCase().includes(q) || s.sub.toLowerCase().includes(q)
-    ).slice(0, 7);
+    );
     setSuggestions(matches);
     setOpen(true);
   };
@@ -674,7 +674,7 @@ function SearchBox({ onSearch }) {
           value={input}
           onChange={e => handleChange(e.target.value)}
           onKeyDown={handleKey}
-          onFocus={() => input.length > 0 && setOpen(true)}
+          onFocus={() => { setSuggestions(input.length > 0 ? allSuggestions.filter(s => s.label.toLowerCase().includes(input.toLowerCase()) || s.sub.toLowerCase().includes(input.toLowerCase())) : allSuggestions); setOpen(true); }}
           autoComplete="off"
         />
         <button onClick={() => commit(input)}>Search</button>

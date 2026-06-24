@@ -10,6 +10,13 @@
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+  const _supabase = supabase.createClient(
+    'https://aovgxslluxrenozowpoo.supabase.co',
+    'sb_publishable_mzKZv2TTtxIZiNGAAtRFZQ_GSMusN_n'
+  );
+</script>
 <style>
   /* ── BINANCE DESIGN TOKENS (DESIGN.md) ── */
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -1083,21 +1090,45 @@ function Testimonials() {
 }
 
 function Newsletter() {
-  const [email, setEmail] = useState("");
-  const [sent, setSent]   = useState(false);
+  const [email, setEmail]   = useState("");
+  const [status, setStatus] = useState("idle"); // idle | loading | success | duplicate | error
+
+  async function handleSubscribe() {
+    if (!email || !email.includes("@")) return;
+    setStatus("loading");
+    const { error } = await _supabase.from("subscribers").insert({ email: email.trim().toLowerCase() });
+    if (!error) {
+      setStatus("success");
+    } else if (error.code === "23505") {
+      setStatus("duplicate");
+    } else {
+      setStatus("error");
+    }
+  }
+
   return (
     <section id="newsletter">
       <div className="newsletter-inner">
         <div className="section-label" style={{color:'var(--teal)'}}>Stay in the loop</div>
         <div className="section-title">Get the best <em>deals</em> first</div>
         <p className="newsletter-sub">Weekly flight deals, destination deep-dives and money-saving tips. No spam, ever.</p>
-        {sent
+        {status === "success"
           ? <div style={{marginTop:'2rem',background:'#fff',borderRadius:'12px',padding:'1.2rem 1.6rem',color:'var(--teal)',fontWeight:500}}>✓ You're on the list! Welcome to Budget Travel Bliss.</div>
           : <>
               <div className="newsletter-form">
-                <input type="email" placeholder="your@email.com" value={email} onChange={e=>setEmail(e.target.value)}/>
-                <button onClick={()=>email&&setSent(true)}>Subscribe</button>
+                <input
+                  type="email"
+                  placeholder="your@email.com"
+                  value={email}
+                  onChange={e => { setEmail(e.target.value); setStatus("idle"); }}
+                  onKeyDown={e => e.key === "Enter" && handleSubscribe()}
+                />
+                <button onClick={handleSubscribe} disabled={status === "loading"}>
+                  {status === "loading" ? "Saving…" : "Subscribe"}
+                </button>
               </div>
+              {status === "duplicate" && <p style={{color:'#f0b90b',fontSize:'0.8rem',marginTop:'0.5rem'}}>You're already subscribed!</p>}
+              {status === "error"     && <p style={{color:'#cf304a',fontSize:'0.8rem',marginTop:'0.5rem'}}>Something went wrong — please try again.</p>}
               <p className="newsletter-note">Join 48,000+ travellers. Unsubscribe anytime.</p>
             </>
         }

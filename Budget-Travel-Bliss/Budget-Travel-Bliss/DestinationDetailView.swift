@@ -8,7 +8,7 @@ struct DestinationDetailView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
-                AsyncImage(url: URL(string: destination.photo)) { img in
+                AsyncImage(url: destination.photoURL) { img in
                     img.resizable().aspectRatio(contentMode: .fill)
                 } placeholder: {
                     Rectangle().fill(.quaternary)

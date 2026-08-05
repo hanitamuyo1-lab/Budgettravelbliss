@@ -18,7 +18,7 @@ struct SavedView: View {
                     List {
                         ForEach(saved) { item in
                             HStack(spacing: 12) {
-                                AsyncImage(url: URL(string: item.photo)) { img in
+                                AsyncImage(url: item.photoURL) { img in
                                     img.resizable().aspectRatio(contentMode: .fill)
                                 } placeholder: {
                                     Rectangle().fill(.quaternary)

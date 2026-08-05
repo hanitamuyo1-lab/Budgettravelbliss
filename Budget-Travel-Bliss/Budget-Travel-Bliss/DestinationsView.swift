@@ -60,7 +60,7 @@ struct DestinationRow: View {
 
     var body: some View {
         HStack(spacing: 12) {
-            AsyncImage(url: URL(string: destination.photo)) { img in
+            AsyncImage(url: destination.photoURL) { img in
                 img.resizable().aspectRatio(contentMode: .fill)
             } placeholder: {
                 Rectangle().fill(.quaternary)

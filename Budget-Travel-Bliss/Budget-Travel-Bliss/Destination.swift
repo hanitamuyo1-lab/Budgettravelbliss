@@ -15,6 +15,15 @@ struct Destination: Identifiable, Codable, Hashable {
     let bestTime: String
     let climate: String
     let lang: String
+
+    // Some entries store a bare Unsplash photo ID rather than a full URL,
+    // matching the web app which expands them the same way.
+    var photoURL: URL? {
+        if photo.hasPrefix("http") {
+            return URL(string: photo)
+        }
+        return URL(string: "https://images.unsplash.com/photo-\(photo)?auto=format&fit=crop&w=800&q=75")
+    }
 }
 
 enum DestinationStore {

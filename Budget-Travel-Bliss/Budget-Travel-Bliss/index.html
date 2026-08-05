@@ -725,7 +725,7 @@ function HeroBg({ photos }) {
   useEffect(() => {
     setLoaded(false);
     const img = new Image();
-    img.src = `https://images.unsplash.com/photo-${photos[idx].id}?auto=format&fit=crop&w=1800&q=60`;
+    img.src = `https://images.unsplash.com/photo-${photos[idx].id}?fm=jpg&fit=crop&w=1800&q=60`;
     img.onload = () => setLoaded(true);
   }, [idx]);
 
@@ -737,7 +737,7 @@ function HeroBg({ photos }) {
   return (
     <div className="hero-bg">
       <img
-        src={`https://images.unsplash.com/photo-${photos[idx].id}?auto=format&fit=crop&w=1800&q=60`}
+        src={`https://images.unsplash.com/photo-${photos[idx].id}?fm=jpg&fit=crop&w=1800&q=60`}
         alt={photos[idx].alt}
         className={loaded ? "loaded" : ""}
       />
@@ -747,7 +747,7 @@ function HeroBg({ photos }) {
 
 // ── COMPONENTS ────────────────────────────────────────────────
 function DestModal({ dest, onClose }) {
-  const imgSrc = (dest.photo.startsWith("http") ? dest.photo : `https://images.unsplash.com/photo-${dest.photo}?w=800&q=80`);
+  const imgSrc = (dest.photo.startsWith("http") ? dest.photo : `https://images.unsplash.com/photo-${dest.photo}?fm=jpg&w=800&q=80`);
 
   useEffect(() => {
     const onKey = e => { if (e.key === 'Escape') onClose(); };
@@ -1223,7 +1223,7 @@ const GALLERY_PHOTOS = [
 
 function GalleryItem({ item, index, onClick }) {
   const [loaded, setLoaded] = useState(false);
-  const url = (item.photo.startsWith("http") ? item.photo : `https://images.unsplash.com/photo-${item.photo}?auto=format&fit=crop&w=800&q=75`);
+  const url = (item.photo.startsWith("http") ? item.photo : `https://images.unsplash.com/photo-${item.photo}?fm=jpg&fit=crop&w=800&q=75`);
   return (
     <div className="gallery-item" onClick={() => onClick(index)}>
       <img
@@ -1285,7 +1285,7 @@ function PhotoGallery() {
             <button className="lightbox-close" onClick={close}>×</button>
             <button className="lightbox-nav lightbox-prev" onClick={prev}>‹</button>
             <img
-              src={(lbItem.photo.startsWith("http") ? lbItem.photo : `https://images.unsplash.com/photo-${lbItem.photo}?auto=format&fit=crop&w=1400&q=85`)}
+              src={(lbItem.photo.startsWith("http") ? lbItem.photo : `https://images.unsplash.com/photo-${lbItem.photo}?fm=jpg&fit=crop&w=1400&q=85`)}
               alt={lbItem.dest}
               className={lbLoaded ? "loaded" : ""}
               onLoad={() => setLbLoaded(true)}

@@ -38,6 +38,10 @@
   /* button-primary: yellow bg, dark text, 6px radius, 40px height */
   .nav-cta { background: #fcd535; color: #181a20; border: none; border-radius: 6px; padding: 0 20px; height: 40px; font-family: var(--font-body); font-size: 0.875rem; font-weight: 600; letter-spacing: 0; text-transform: none; cursor: pointer; transition: background 0.15s; }
   .nav-cta:hover { background: #f0b90b; }
+  /* Mobile-only banner shortcuts to the tools further down the page */
+  .nav-tools { display: none; }
+  .nav-tools a { font-size: 0.72rem; font-weight: 600; color: #fcd535; background: rgba(252,213,53,0.08); border: 1px solid rgba(252,213,53,0.35); border-radius: 999px; padding: 5px 12px; text-decoration: none; white-space: nowrap; }
+  #calculator, #converter { scroll-margin-top: 120px; }
 
   /* HERO — hero-band-dark: canvas-dark, no gradient, bold sans headline */
   .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 120px 5vw 80px; background: #000; position: relative; }
@@ -254,7 +258,13 @@
 
   @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
   @keyframes imgFadeIn { from { opacity: 0; transform: scale(1.04); } to { opacity: 1; transform: scale(1); } }
-  @media(max-width:600px) { .nav-links { display: none; } .hero-stats { gap: 1.5rem; } }
+  @media(max-width:600px) {
+    .nav-links { display: none; }
+    .hero-stats { gap: 1.5rem; }
+    nav { flex-wrap: wrap; height: auto; min-height: calc(64px + env(safe-area-inset-top)); padding-bottom: 10px; row-gap: 8px; }
+    .nav-tools { display: flex; order: 3; flex-basis: 100%; justify-content: center; gap: 8px; }
+    .hero { padding-top: calc(150px + env(safe-area-inset-top)); }
+  }
 
   /* HERO BG IMAGE — dark overlay instead of light */
   .hero-bg { display: none; }
@@ -344,6 +354,10 @@
     <li><a href="#faq">FAQ</a></li>
   </ul>
   <button class="nav-cta" onclick="document.getElementById('newsletter').scrollIntoView({behavior:'smooth'})">Get Deals</button>
+  <div class="nav-tools">
+    <a href="#calculator">Budget Calculator</a>
+    <a href="#converter">Currency Converter</a>
+  </div>
 </nav>
 
 <div id="root"></div>

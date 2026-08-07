@@ -8,13 +8,17 @@ struct DestinationDetailView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
-                AsyncImage(url: destination.photoURL) { img in
-                    img.resizable().aspectRatio(contentMode: .fill)
-                } placeholder: {
-                    Rectangle().fill(.quaternary)
-                }
-                .frame(height: 240)
-                .clipped()
+                Color(.secondarySystemBackground)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 240)
+                    .overlay {
+                        AsyncImage(url: destination.photoURL) { img in
+                            img.resizable().scaledToFill()
+                        } placeholder: {
+                            Color(.secondarySystemBackground)
+                        }
+                    }
+                    .clipped()
 
                 VStack(alignment: .leading, spacing: 14) {
                     Text(destination.name).font(.largeTitle.bold())
@@ -31,6 +35,7 @@ struct DestinationDetailView: View {
                     factRow("Language", destination.lang)
                     factRow("Currency", destination.currency)
                 }
+                .frame(maxWidth: .infinity, alignment: .leading)
                 .padding()
             }
         }

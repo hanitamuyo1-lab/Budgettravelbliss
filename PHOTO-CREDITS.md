@@ -137,3 +137,12 @@ Please do not upload an edited image here without consulting me.  I would like t
 | europe/valencia.jpg | Valencia, Spain | Valencia, Spain | Boris  Dzhingarov | CC BY 2.0 |
 | europe/vilnius.jpg | Vilnius, Lithuania | Vilnius, Lithuania | Wikimedia contributor | CC |
 | europe/york.jpg | York, England | York, England | FEGreene | CC0 |
+| africa/nairobi.jpg | Nairobi, Kenya | Nairobi | Daniel Case | CC BY-SA 4.0 |
+| africa/zanzibar.jpg | Zanzibar, Tanzania | Zanzibar City | Alex Petrenko | CC BY-SA 3.0 |
+| africa/kampala.jpg | Kampala, Uganda | Kampala | Chapelle musa | CC BY-SA 4.0 |
+| africa/addis-ababa.jpg | Addis Ababa, Ethiopia | Addis Ababa | Abshewaga | CC BY-SA 4.0 |
+| africa/kigali.jpg | Kigali, Rwanda | Kigali | Emmanuelkwizera | CC BY-SA 4.0 |
+| africa/stone-town.jpg | Stone Town, Tanzania | Stone Town | No machine-readable author provided. Mbz1 assumed (based on copyright claims). | CC BY-SA 3.0 |
+| africa/cairo.jpg | Cairo, Egypt | Cairo | Jorge Láscar from Melbourne, Australia | CC BY 2.0 |
+| africa/cape-town.jpg | Cape Town, South Africa | Cape Town | Der Berzerker from Washington, DC, USA | CC BY-SA 2.0 |
+| africa/accra.jpg | Accra, Ghana | Accra | Amoat7 | CC BY-SA 4.0 |

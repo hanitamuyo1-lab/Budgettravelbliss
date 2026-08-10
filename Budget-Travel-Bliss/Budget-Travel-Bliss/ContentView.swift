@@ -14,6 +14,8 @@ struct WebView: UIViewRepresentable {
         webView.scrollView.showsVerticalScrollIndicator = false
         webView.scrollView.showsHorizontalScrollIndicator = false
         webView.scrollView.contentInsetAdjustmentBehavior = .never
+        // Bottom inset so the page footer can scroll clear of the floating tab bar.
+        webView.scrollView.contentInset.bottom = 95
         webView.scrollView.alwaysBounceHorizontal = false
         webView.scrollView.isDirectionalLockEnabled = true
         webView.isOpaque = false

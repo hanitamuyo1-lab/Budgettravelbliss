@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
 <title>About — Budget Travel Bliss</title>
 <link rel="icon" type="image/svg+xml" href="logo.svg"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -11,7 +11,7 @@
   html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Inter', sans-serif; background: #000; color: #eaecef; font-size: 15px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
-  nav { position: sticky; top: 0; background: rgba(0,0,0,0.96); backdrop-filter: blur(14px); border-bottom: 1px solid #2b3139; padding: 0 5vw; height: 64px; display: flex; align-items: center; justify-content: space-between; z-index: 10; }
+  nav { position: sticky; top: 0; background: rgba(0,0,0,0.96); backdrop-filter: blur(14px); border-bottom: 1px solid #2b3139; padding: env(safe-area-inset-top) 5vw 0; height: calc(64px + env(safe-area-inset-top)); box-sizing: border-box; display: flex; align-items: center; justify-content: space-between; z-index: 10; }
   .nav-logo img { height: 36px; display: block; }
   .nav-back { font-size: 0.82rem; color: #707a8a; text-decoration: none; border: 1px solid #2b3139; border-radius: 6px; padding: 6px 14px; transition: color 0.15s, border-color 0.15s; }
   .nav-back:hover { color: #fcd535; border-color: #fcd535; }

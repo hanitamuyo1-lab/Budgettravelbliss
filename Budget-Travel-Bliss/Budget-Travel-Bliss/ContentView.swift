@@ -79,27 +79,30 @@ struct ExploreView: View {
     var body: some View {
         ZStack {
             Color.black.ignoresSafeArea()
-            VStack(spacing: 0) {
-                WebView()
-                AdBanner()
-                    .frame(width: 320, height: 50)
-            }
+            WebView()
         }
     }
 }
 
 struct ContentView: View {
     var body: some View {
-        TabView {
-            ExploreView()
-                .ignoresSafeArea()
-                .tabItem { Label("Explore", systemImage: "globe") }
+        VStack(spacing: 0) {
+            TabView {
+                ExploreView()
+                    .ignoresSafeArea()
+                    .tabItem { Label("Explore", systemImage: "globe") }
 
-            DestinationsView()
-                .tabItem { Label("Destinations", systemImage: "map") }
+                DestinationsView()
+                    .tabItem { Label("Destinations", systemImage: "map") }
 
-            SavedView()
-                .tabItem { Label("Saved", systemImage: "heart") }
+                SavedView()
+                    .tabItem { Label("Saved", systemImage: "heart") }
+            }
+            // Persistent banner pinned above the tab bar so it's always visible.
+            AdBanner()
+                .frame(width: 320, height: 50)
+                .frame(maxWidth: .infinity)
+                .background(Color(.systemBackground))
         }
     }
 }

@@ -87,16 +87,23 @@ struct ExploreView: View {
 struct ContentView: View {
     var body: some View {
         VStack(spacing: 0) {
+            // Native-first: the app opens into the native Destinations browser.
             TabView {
-                ExploreView()
-                    .ignoresSafeArea(edges: .top)
-                    .tabItem { Label("Explore", systemImage: "globe") }
-
                 DestinationsView()
                     .tabItem { Label("Destinations", systemImage: "map") }
 
+                PlannerView()
+                    .tabItem { Label("Planner", systemImage: "dollarsign.circle") }
+
+                ConverterView()
+                    .tabItem { Label("Convert", systemImage: "arrow.left.arrow.right") }
+
                 SavedView()
                     .tabItem { Label("Saved", systemImage: "heart") }
+
+                ExploreView()
+                    .ignoresSafeArea(edges: .top)
+                    .tabItem { Label("Guide", systemImage: "globe") }
             }
             // Persistent banner pinned above the tab bar so it's always visible.
             AdBanner()

@@ -1,4 +1,4 @@
-# App Store Review Responses — v1.0 (build 5)
+# App Store Review Responses — v1.0 (build 6)
 
 Submission ID of rejection: 5590f1f1-8ec2-40f0-8be9-ca0c48251c31
 
@@ -18,19 +18,22 @@ Thank you for your review. Budget Travel Bliss has no paid content, subscription
 
 ## Reply / Reviewer Note for Guideline 4.2 — Minimum Functionality
 
-This build adds substantial native functionality beyond the web view. In the bottom tab bar:
+This build (1.0, build 6) is a native-first app. It launches directly into native SwiftUI functionality, and four of its five tabs are fully native (built with SwiftUI, SwiftData, and on-device data — no web view):
 
-- **Destinations tab** — a native SwiftUI browser of 143 destinations loaded from data bundled inside the app, with native search, region filtering, and a native detail screen for each destination. The destination data and detail screens work without a network connection (photos are fetched from the network when available).
-- **Saved tab** — a native favorites feature using on-device SwiftData persistence; saved destinations remain available across app launches.
+- **Destinations** (opens here by default) — a native browser of 143 destinations from data bundled in the app, with native search and region filtering, and a native detail screen per destination. Works offline.
+- **Planner** — a native interactive **budget calculator**: choose a destination, adjust trip length with a slider, pick a travel style, and see a live total with a category cost breakdown. Trips can be **saved on-device (SwiftData)** and are listed and deletable.
+- **Convert** — a native **currency converter** across 57 currencies with a live conversion and a quick-reference rate list.
+- **Saved** — native favorites using on-device SwiftData persistence, surviving app relaunches and available offline.
+- **Guide** — a supplementary web view (this is the only web content, and it is not the default tab).
 
-These are native capabilities not provided by a web browsing experience. To review them, please tap the **Destinations** and **Saved** tabs in the tab bar at the bottom of the app, open any destination for its native detail screen, and tap the heart to save it.
+To review: the app opens on the native **Destinations** tab. Try **Planner** (adjust the slider and Save a trip), **Convert** (change currencies), and **Saved** (heart a destination, reopen the tab). These are native, interactive capabilities with on-device persistence and computation — not a web browsing experience. If a specific additional native capability would help, we are glad to add it.
 
 ---
 
 ## INTERNAL NOTE — do NOT send this part to Apple
 
 - Do **not** mention the Budget Calculator or Currency Converter in the 4.2 reply. They are web-view features, and Apple discounts web-equivalent functionality for 4.2. The 4.2 argument must rest only on the native Destinations and Saved tabs.
-- Before submitting, confirm the uploaded build is 1.0 (build 5) and that it is the build containing the native tabs — not the old 1.0 (4) that was rejected. The new build is 1.0 (5).
+- Before submitting, confirm the uploaded build is 1.0 (build 6) and that it is the build containing the native tabs — not the old 1.0 (4) that was rejected. The new build is 1.0 (5).
 
 ---
 

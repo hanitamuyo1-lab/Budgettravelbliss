@@ -12,6 +12,6 @@ struct BudgetTravelBlissApp: App {
         WindowGroup {
             ContentView()
         }
-        .modelContainer(for: SavedDestination.self)
+        .modelContainer(for: [SavedDestination.self, Trip.self])
     }
 }

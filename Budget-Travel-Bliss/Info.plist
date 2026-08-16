@@ -216,7 +216,7 @@
 	<key>CFBundleIdentifier</key>
 	<string>com.budgettravelbliss.app</string>
 	<key>CFBundleVersion</key>
-	<string>5</string>
+	<string>6</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundlePackageType</key>
